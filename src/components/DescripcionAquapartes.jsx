@@ -17,7 +17,7 @@ export const DescripcionAquapartes = () => {
             {/* Contenedor de la imagen */}
             <div className="flex-1 h-full flex items-center justify-center">
               <img
-                src="./../../public/aquapartes-desc.jpg"
+                src="/aquapartes-desc.jpg"
                 alt="AquaPartes Descripción"
                 className="w-full h-full max-h-80 object-cover rounded-lg shadow-md"
               />
