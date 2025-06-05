@@ -1,0 +1,217 @@
+@import "tailwindcss";
+
+/* Mobile Filter Animation */
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+.animate-slide-in {
+  animation: slideInRight 0.3s ease-out forwards;
+  background: white;
+}
+
+/* Custom scrollbar for mobile filter */
+.mobile-filters::-webkit-scrollbar {
+  width: 6px;
+}
+
+.mobile-filters::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+.mobile-filters::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 10px;
+}
+
+.mobile-filters::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* Product Page Styles */
+.description-content {
+  color: #4d5157;
+  line-height: 2.1;
+  font-size: 1.1rem;
+  width: 100%;
+  max-width: 100%;
+  margin-bottom: 2rem;
+}
+
+.description-content p {
+  margin-bottom: 1.8rem;
+  text-align: justify;
+  hyphens: auto;
+}
+
+.description-content strong {
+  color: #1e40af;
+  font-weight: 600;
+}
+
+.description-content h2,
+.description-content h3,
+.description-content h4 {
+  color: #111827;
+  font-weight: 600;
+  margin-top: 2.5rem;
+  margin-bottom: 1.2rem;
+  line-height: 1.4;
+}
+
+.description-content ul,
+.description-content ol {
+  margin: 1.5rem 0 2rem 0;
+  padding-left: 2rem;
+}
+
+.description-content li {
+  margin-bottom: 0.8rem;
+  padding-left: 0.75rem;
+  position: relative;
+}
+
+.description-content li:before {
+  content: '•';
+  color: #1e40af;
+  font-weight: bold;
+  position: absolute;
+  left: 0;
+}
+
+.description-content a {
+  color: #1d4ed8;
+  text-decoration: none;
+  border-bottom: 1px solid #93c5fd;
+  transition: all 0.2s ease;
+  font-weight: 500;
+}
+
+.description-content a:hover {
+  color: #1e40af;
+  border-bottom-color: #1e40af;
+}
+
+/* Specifications Styles */
+
+/* About Us Page Animations */
+@keyframes float {
+  0% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-10px) rotate(1deg); }
+  100% { transform: translateY(0) rotate(0deg); }
+}
+
+@keyframes wave {
+  0% { background-position: 0 0, 0 0; }
+  100% { background-position: 100px 100px, 100px 100px; }
+}
+
+.animate-float {
+  animation: float 15s ease-in-out infinite alternate;
+}
+
+/* About Us Page Specific Styles */
+.about-hero {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.about-gradient-bg {
+  background-image: 
+    radial-gradient(circle at 25% 60%, rgba(59, 130, 246, 0.1) 0%, transparent 40%),
+    radial-gradient(circle at 75% 40%, rgba(29, 78, 216, 0.1) 0%, transparent 40%);
+  background-size: 300px 300px;
+  animation: float 20s ease-in-out infinite alternate;
+  height: 100%;
+  width: 100%;
+  z-index: 0;
+}
+
+.about-pattern {
+  background-image: 
+    linear-gradient(45deg, transparent 47%, rgba(96, 165, 250, 0.1) 48%, rgba(96, 165, 250, 0.1) 52%, transparent 53%),
+    linear-gradient(-45deg, transparent 47%, rgba(59, 130, 246, 0.08) 48%, rgba(59, 130, 246, 0.08) 52%, transparent 53%);
+  background-size: 120px 120px;
+  animation: wave 25s linear infinite;
+  height: 100%;
+  width: 100%;
+  z-index: 0;
+}
+.specs-content {
+  color: #4b5563;
+  line-height: 1.8;
+  font-size: 1.05rem;
+}
+
+.specs-content > ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+}
+
+.specs-content > ul > li {
+  padding: 1.5rem;
+  border-bottom: 1px solid #f1f5f9;
+  border-right: 1px solid #f1f5f9;
+  transition: background-color 0.2s ease;
+}
+
+.specs-content > ul > li:hover {
+  background-color: #f8fafc;
+}
+
+.specs-content > ul > li:nth-child(odd) {
+  background-color: #f8fafc;
+}
+
+.specs-content > ul > li:nth-child(even) {
+  background-color: #ffffff;
+}
+
+.specs-content ul ul {
+  display: block;
+  margin-top: 0.75rem;
+  padding-left: 1.5rem;
+}
+
+.specs-content ul ul li {
+  position: relative;
+  padding-left: 1.5rem;
+  margin-bottom: 0.5rem;
+  color: #4b5563;
+}
+
+.specs-content ul ul li:before {
+  content: '•';
+  position: absolute;
+  left: 0;
+  color: #1e40af;
+  font-weight: bold;
+}
+
+.specs-content strong {
+  color: #1e40af;
+  font-weight: 500;
+  display: block;
+  margin-bottom: 0.5rem;
+  font-size: 1.05em;
+  letter-spacing: 0.01em;
+}
+
+@media (max-width: 768px) {
+  .specs-content > ul {
+    grid-template-columns: 1fr;
+  }
+  .specs-content > ul > li {
+    border-right: none;
+  }
+}

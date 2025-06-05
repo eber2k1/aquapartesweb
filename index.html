@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="es" prefix="og: https://ogp.me/ns#">
+  <head>
+    <!-- Metadatos básicos -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+    <meta name="theme-color" content="#0ea5e9">
+    <meta name="description" content="AquaPartes - Distribuidor mayorista de productos para tratamiento de agua. Amplio catálogo de productos de las mejores marcas.">
+    <meta name="keywords" content="repuestos, bombeo, hidráulica, accesorios, fontanería, AquaPartes, equipos de bombeo, repuestos industriales">
+    <meta name="author" content="AquaPartes">
+    <meta name="robots" content="index, follow">
+    <meta name="googlebot" content="index, follow">
+    
+    <!-- Favicon y Web App -->
+    <link rel="icon" type="image/png" href="/logoconmarcos.png" sizes="192x192">
+    <link rel="apple-touch-icon" href="/logoconmarcos.png">
+    <link rel="manifest" href="/site.webmanifest" type="application/manifest+json">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://aquapartes.com/">
+    <meta property="og:title" content="AquaPartes - Especialistas en Productos para Tratamiento de Agua">
+    <meta property="og:description" content="Distribuidor mayorista de productos para tratamiento de agua. Amplio catálogo de productos de las mejores marcas.">
+    <meta property="og:image" content="https://aquapartes.com/og-image.jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:locale" content="es_PE">
+    
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://aquapartes.com/">
+    <meta name="twitter:title" content="AquaPartes - Especialistas en Productos para Tratamiento de Agua">
+    <meta name="twitter:description" content="Distribuidor mayorista de productos para tratamiento de agua. Amplio catálogo de productos de las mejores marcas.">
+    <meta name="twitter:image" content="https://aquapartes.com/og-image.jpg">
+    
+    <!-- Preconexiones -->
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <!-- Preconexiones optimizadas -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+    
+    <!-- Carga de Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
+    <!-- Carga de Google Fonts optimizada -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+      /* Cargar fuentes de forma asíncrona */
+      @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+      
+      /* Fuentes de respaldo para evitar FOIT/FOUT */
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+        line-height: 1.6;
+        color: #1f2937;
+      }
+      
+      /* Usar fuente del sistema hasta que cargue Inter */
+      .fonts-loaded body {
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      }
+    </style>
+    
+    <!-- Título de la página -->
+    <title>AquaPartes | Especialistas en Repuestos para Bombeo e Hidráulica</title>
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://tudominio.com/" />
+    
+    <!-- Script para carga óptima de fuentes -->
+    <script>
+      // Cargar fuentes de manera asíncrona
+      function loadFonts() {
+        const link = document.createElement('link');
+        link.href = 'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap';
+        link.rel = 'stylesheet';
+        link.onload = function() {
+          document.documentElement.classList.add('fonts-loaded');
+        };
+        document.head.appendChild(link);
+      }
+      
+      // Cargar después de que el contenido crítico esté listo
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', loadFonts);
+      } else {
+        loadFonts();
+      }
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>

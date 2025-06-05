@@ -1,0 +1,27 @@
+{
+  "name": "AquaPartes",
+  "short_name": "AquaPartes",
+  "description": "Especialistas en Productos para Tratamiento de Agua",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#0ea5e9",
+  "icons": [
+    {
+      "src": "./logoconmarcos.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "./logoconmarcos.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "./logoconmarcos.png",
+      "sizes": "180x180",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
