@@ -73,7 +73,7 @@ export const ProductPage = () => {
                             Volver al inicio
                         </Link>
                         <a 
-                            href={`https://wa.me/51923476522?text=Hola, necesito ayuda con el producto ${id}`}
+                            href={`https://wa.me/51977607443?text=Hola, necesito ayuda con el producto ${id}`}
                             target="_blank"
                             rel="noopener noreferrer"
                             className="block w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded-md transition duration-200 text-center"
