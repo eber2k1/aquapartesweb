@@ -169,7 +169,7 @@ export const ProductPage = () => {
                                 {/* WhatsApp Button */}
                                 <div className="mt-6">
                                     <a 
-                                        href={`https://wa.me/51923476522?text=Hola, estoy interesado en el producto: ${encodeURIComponent(product.nombre)} (${window.location.href})`}
+                                        href={`https://wa.me/51977607443?text=Hola, estoy interesado en el producto: ${encodeURIComponent(product.nombre)} (${window.location.href})`}
                                         target="_blank"
                                         rel="noopener noreferrer"
                                         className="inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-green-600 hover:bg-green-700 transition-colors w-full sm:w-auto"
