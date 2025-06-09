@@ -10,6 +10,7 @@ export const ProductPage = () => {
     const [product, setProduct] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const currentUrl = typeof window !== 'undefined' ? window.location.href : '';
     
     // Get the product ID from the route state or from the slug if not available
     const id = location.state?.productId || slug;
@@ -44,6 +45,76 @@ export const ProductPage = () => {
             setLoading(false);
         }
     }, [id, decodedId]);
+
+    // Update document head with meta tags
+    useEffect(() => {
+        if (!product) return;
+
+        // Title
+        document.title = `${product.nombre || 'Producto'} | AquaPartes`;
+        
+        // Meta description
+        let metaDescription = document.querySelector('meta[name="description"]');
+        if (!metaDescription) {
+            metaDescription = document.createElement('meta');
+            metaDescription.name = 'description';
+            document.head.appendChild(metaDescription);
+        }
+        metaDescription.content = product.descripcion || `Producto ${product.nombre || ''} disponible en AquaPartes`;
+        
+        // Canonical URL
+        let linkCanonical = document.querySelector('link[rel="canonical"]');
+        if (!linkCanonical) {
+            linkCanonical = document.createElement('link');
+            linkCanonical.rel = 'canonical';
+            document.head.appendChild(linkCanonical);
+        }
+        linkCanonical.href = currentUrl;
+        
+        // Open Graph / Facebook
+        const ogTags = {
+            'og:title': product.nombre || 'Producto | AquaPartes',
+            'og:description': product.descripcion || `Producto ${product.nombre || ''} disponible en AquaPartes`,
+            'og:image': product.imagen || 'https://via.placeholder.com/300',
+            'og:url': currentUrl,
+            'og:type': 'product',
+            'og:site_name': 'AquaPartes'
+        };
+        
+        // Twitter Card
+        const twitterTags = {
+            'twitter:card': 'summary_large_image',
+            'twitter:title': product.nombre || 'Producto | AquaPartes',
+            'twitter:description': product.descripcion || `Producto ${product.nombre || ''} disponible en AquaPartes`,
+            'twitter:image': product.imagen || 'https://via.placeholder.com/300'
+        };
+        
+        // Update or create meta tags
+        const updateMetaTag = (name, content, property = null) => {
+            const selector = property ? `meta[property="${name}"]` : `meta[name="${name}"]`;
+            let tag = document.querySelector(selector);
+            
+            if (!tag) {
+                tag = document.createElement('meta');
+                if (property) {
+                    tag.setAttribute('property', name);
+                } else {
+                    tag.name = name;
+                }
+                document.head.appendChild(tag);
+            }
+            tag.content = content;
+        };
+        
+        // Set all meta tags
+        Object.entries(ogTags).forEach(([key, value]) => updateMetaTag(key, value, true));
+        Object.entries(twitterTags).forEach(([key, value]) => updateMetaTag(key, value));
+        
+        // Cleanup function
+        return () => {
+            document.title = 'AquaPartes';
+        };
+    }, [product, currentUrl]);
 
     if (loading) {
         return (
@@ -119,7 +190,7 @@ export const ProductPage = () => {
     }
 
     return (
-        <div className="bg-gray-50 min-h-screen">
+        <div className="bg-gray-50 min-h-screen" itemScope itemType="http://schema.org/Product">
             {/* Breadcrumb */}
             <div className="bg-white shadow-sm">
                 <div className="container mx-auto px-4 py-4">
@@ -144,10 +215,12 @@ export const ProductPage = () => {
                 <div className="bg-white rounded-lg shadow-md overflow-hidden">
                     <div className="md:flex">
                         {/* Product Image */}
-                        <div className="md:w-1/2 p-6">
+                        <div className="md:w-1/2 p-6" itemProp="image" itemScope itemType="http://schema.org/ImageObject">
+                            <meta itemProp="url" content={product.imagen} />
                             <ProductImageZoom 
                                 imageUrl={product.imagen}
-                                alt={product.nombre}
+                                alt={product.nombre || 'Imagen del producto'}
+                                itemProp="image"
                             />
                         </div>
 
@@ -155,15 +228,15 @@ export const ProductPage = () => {
                         <div className="md:w-1/2 p-6">
                             <div className="border-b pb-4 mb-6">
                                 <div className="flex justify-between items-start">
-                                    <div>
-                                        <h1 className="text-2xl font-bold text-gray-900 mb-2">{product.nombre}</h1>
-                                        {product.serie && (
+                                    <div itemScope itemProp="brand" itemType="http://schema.org/Brand">
+                                        <h1 className="text-2xl font-bold text-gray-900 mb-2" itemProp="name">{product.nombre}</h1>
+                                    {product.serie && (
                                             <p className="text-gray-600 mb-2">Serie: {product.serie}</p>
-                                        )}
-                                        {product.marca && (
+                                    )}
+                                    {product.marca && (
                                             <p className="text-gray-600 mb-4">Marca: <span className="uppercase">{product.marca}</span></p>
-                                        )}
-                                    </div>
+                                    )}
+                                </div>
                                 </div>
                                 
                                 {/* WhatsApp Button */}
@@ -183,37 +256,37 @@ export const ProductPage = () => {
                                 
                                 {/* Categoría y Subcategoría */}
                                 <div className="flex flex-wrap gap-2 mt-4">
-                                    {product.categoria && (
-                                        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                                        {product.categoria && (
+                                        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800" itemProp="category">
                                             {product.categoria}
                                         </span>
-                                    )}
-                                    {product.subcategoria && (
-                                        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                        )}
+                                        {product.subcategoria && (
+                                        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800" itemProp="category">
                                             {product.subcategoria}
                                         </span>
-                                    )}
-                                </div>
-                            </div>
-                    
-                            {/* Palabras Clave */}
-                            {product.palabras_clave && (
-                                <div className="mt-6 pt-4 border-t border-gray-200">
-                                    <div className="flex flex-wrap gap-2">
-                                        {product.palabras_clave.split(',').map((keyword, index) => (
+                                        )}
+                </div>
+            </div>
+            
+                        {/* Palabras Clave */}
+                        {product.palabras_clave && (
+                            <div className="mt-6 pt-4 border-t border-gray-200">
+                                <div className="flex flex-wrap gap-2">
+                                    {product.palabras_clave.split(',').map((keyword, index) => (
                                             <span 
                                                 key={index} 
                                                 className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800"
                                             >
-                                                {keyword.trim()}
-                                            </span>
-                                        ))}
-                                    </div>
+                                            {keyword.trim()}
+                                        </span>
+                                    ))}
                                 </div>
-                            )}
+                            </div>
+                        )}
                             {/* Ficha Técnica */}
                             {product.ficha_tecnica_url && (
-                                <div className="mt-6">
+                            <div className="mt-6">
                                     <a 
                                         href={product.ficha_tecnica_url} 
                                         target="_blank" 
@@ -225,13 +298,13 @@ export const ProductPage = () => {
                                         </svg>
                                         Descargar Ficha Técnica
                                     </a>
-                                </div>
-                            )}
+                            </div>
+                        )}
 
-                        </div>
                     </div>
                 </div>
-                
+            </div>
+            
 
                 {/* Description and Specifications Section */}
                 <div className="bg-white rounded-lg shadow-md overflow-hidden mt-8">
@@ -261,7 +334,7 @@ export const ProductPage = () => {
                                 </button>
                             </nav>
                         </div>
-
+                        
                         {/* Tab Content */}
                         <div className="py-6">
                             {activeTab === 'descripcion' && product.descripcion && (
@@ -278,13 +351,13 @@ export const ProductPage = () => {
                                     </div>
                                 </div>
                             )}
-
+                            
                             {activeTab === 'especificaciones' && product.especificaciones && (
                                 <div className="w-full">
                                     <div className="mb-8">
                                         <h3 className="text-2xl font-medium text-gray-900 mb-2">Especificaciones Técnicas</h3>
                                         <div className="h-1 w-16 bg-blue-700"></div>
-                                    </div>
+                                        </div>
                                     <div className="border border-gray-200 rounded-lg overflow-hidden">
                                         <div 
                                             className="specs-content"
@@ -296,7 +369,7 @@ export const ProductPage = () => {
                         </div>
                     </div>
                 </div>
-
+                
                 {/* Back Button */}
                 <div className="mt-8">
                     <button
