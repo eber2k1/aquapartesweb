@@ -85,14 +85,14 @@ export const DropdownCategories = ({ isOpen, onClose, mobileView = false, onItem
 
     return (
         <div 
-            className="absolute left-0 bg-white shadow-lg rounded-lg py-2 z-50 min-w-[200px] border-2 border-gray-200"
+            className="absolute left-0 bg-white shadow-lg rounded-lg py-2 z-50 min-w-[200px] border-2 border-sky-200"
             onMouseLeave={onClose}
         >
             <div className="flex flex-col">
                 {categories.map((category, index) => (
                     <div 
                         key={index}
-                        className="flex items-center px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                        className="flex items-center px-12 py-2 hover:bg-sky-100 cursor-pointer"
                         onClick={() => handleCategoryClick(category.categoria)}
                     >
                         {category.categoria_imagen && (
