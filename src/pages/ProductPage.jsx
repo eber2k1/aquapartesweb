@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
-import { useParams, useNavigate, Link, useLocation } from 'react-router-dom';
+import { useParams, useLocation, useNavigate } from 'react-router-dom';
 import { productsApi } from '../services/api';
 import ProductImageZoom from '../components/ProductImageZoom';
-import Breadcrumb from '../components/Breadcrumb';
+import PageLoader from '../components/PageLoader';
+import { Link } from 'react-router-dom';
 
 export const ProductPage = () => {
     const { id: slug } = useParams();
@@ -118,11 +119,7 @@ export const ProductPage = () => {
     }, [product, currentUrl]);
 
     if (loading) {
-        return (
-            <div className="flex justify-center items-center min-h-screen">
-                <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
-            </div>
-        );
+        return <PageLoader message="Cargando producto..." />;
     }
 
 
@@ -192,20 +189,6 @@ export const ProductPage = () => {
 
     return (
         <div className="bg-gray-50 min-h-screen" itemScope itemType="http://schema.org/Product">
-            {/* Breadcrumb */}
-            <div className="bg-white shadow-sm">
-                <div className="max-w-7xl mx-auto px-4 py-4">
-                    <Breadcrumb items={[
-                        { name: 'Inicio', path: '/' },
-                        { name: 'Productos', path: '/productos' },
-                        { 
-                            name: product?.nombre || 'Producto',
-                            path: ''
-                        }
-                    ]} />
-                </div>
-            </div>
-
             {/* Product Details */}
             <div className="container mx-auto px-4 py-8">
                 <div className="bg-white rounded-lg shadow-md overflow-hidden">

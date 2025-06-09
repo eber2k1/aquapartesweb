@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { categoriesApi } from '../services/api';
 import { useFilters } from '../hooks/useFilters';
 
-export const Footer = () => {
+export default function Footer() {
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();

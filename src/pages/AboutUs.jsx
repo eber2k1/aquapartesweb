@@ -1,6 +1,5 @@
 import { useEffect } from 'react';
 import { FaTrophy, FaWater, FaLeaf, FaBuilding, FaAward, FaCheckCircle } from 'react-icons/fa';
-import Breadcrumb from '../components/Breadcrumb';
 
 export const AboutUs = () => {
   // Set page metadata
@@ -71,16 +70,6 @@ export const AboutUs = () => {
   }, []);
   return (
     <>
-      {/* Breadcrumb */}
-      <div className="bg-white shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 py-4">
-          <Breadcrumb items={[
-            { name: 'Inicio', path: '/' },
-            { name: 'Sobre Nosotros', path: '' }
-          ]} />
-        </div>
-      </div>
-
       {/* Hero Section */}
       <div className="relative py-32 -mt-16 text-white" itemScope itemType="https://schema.org/AboutPage">
         <div 

@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { DropdownCategories } from "./DropdownCategories";
 import CartIcon from "./CartIcon";
 
-export const Header = () => {
+export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
   const [showCategories, setShowCategories] = useState(false);

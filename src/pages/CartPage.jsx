@@ -1,14 +1,28 @@
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useCart } from '../context/cart/use-cart';
 import { FaWhatsapp } from 'react-icons/fa';
+import PageLoader from '../components/PageLoader';
 
 const CartPage = () => {
+  const [loading, setLoading] = useState(true);
   const { 
     cart, 
     removeFromCart, 
     updateQuantity, 
     clearCart 
   } = useCart();
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 500);
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (loading) {
+    return <PageLoader message="Cargando carrito..." />;
+  }
 
   if (cart.length === 0) {
     return (

@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { brandsApi } from '../services/api';
 import { useFilters } from '../hooks/useFilters';
-import Breadcrumb from '../components/Breadcrumb';
+import PageLoader from '../components/PageLoader';
 
 export const Brands = () => {
     const [brands, setBrands] = useState([]);
@@ -176,11 +176,7 @@ export const Brands = () => {
     }, []);
 
     if (loading) {
-        return (
-            <div className="min-h-screen flex items-center justify-center">
-                <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-sky-950"></div>
-            </div>
-        );
+        return <PageLoader message="Cargando marcas..." />;
     }
 
     if (error) {
@@ -203,10 +199,6 @@ export const Brands = () => {
 
     return (
         <div className="container mx-auto px-4 py-8" itemScope itemType="https://schema.org/ItemList">
-            <Breadcrumb items={[
-                { name: 'Inicio', path: '/' },
-                { name: 'Marcas', path: '' }
-            ]} />
             <h1 className="text-3xl font-bold text-gray-800 mb-8 text-center">Marcas Aliadas</h1>
             <meta itemProp="name" content="Marcas Aliadas" />
             <meta itemProp="description" content="Descubre nuestras marcas aliadas de confianza. Ofrecemos productos de las mejores marcas en el mercado." />
