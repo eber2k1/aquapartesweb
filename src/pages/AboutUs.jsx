@@ -1,10 +1,88 @@
+import { useEffect } from 'react';
 import { FaTrophy, FaWater, FaLeaf, FaBuilding, FaAward, FaCheckCircle } from 'react-icons/fa';
+import Breadcrumb from '../components/Breadcrumb';
 
 export const AboutUs = () => {
+  // Set page metadata
+  useEffect(() => {
+    // Set page title
+    const pageTitle = 'Sobre Nosotros | AquaPartes - 29 años de excelencia en tratamiento de agua';
+    document.title = pageTitle;
+    
+    // Meta description
+    const description = 'Conoce más sobre AquaPartes, empresa líder en sistemas de tratamiento de agua con 29 años de experiencia atendiendo a más de 200 empresas en Perú.';
+    let metaDescription = document.querySelector('meta[name="description"]');
+    if (!metaDescription) {
+      metaDescription = document.createElement('meta');
+      metaDescription.name = 'description';
+      document.head.appendChild(metaDescription);
+    }
+    metaDescription.content = description;
+    
+    // Canonical URL
+    const currentUrl = window.location.href;
+    let linkCanonical = document.querySelector('link[rel="canonical"]');
+    if (!linkCanonical) {
+      linkCanonical = document.createElement('link');
+      linkCanonical.rel = 'canonical';
+      document.head.appendChild(linkCanonical);
+    }
+    linkCanonical.href = currentUrl;
+    
+    // Add structured data
+    const scriptId = 'about-structured-data';
+    let script = document.getElementById(scriptId);
+    
+    if (script) {
+      script.remove();
+    }
+    
+    script = document.createElement('script');
+    script.id = scriptId;
+    script.type = 'application/ld+json';
+    script.text = JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'AboutPage',
+      'name': 'Sobre Nosotros - AquaPartes',
+      'description': description,
+      'publisher': {
+        '@type': 'Organization',
+        'name': 'AquaPartes',
+        'url': window.location.origin,
+        'logo': {
+          '@type': 'ImageObject',
+          'url': `${window.location.origin}/logo.png`
+        }
+      },
+      'mainEntityOfPage': {
+        '@type': 'WebPage',
+        '@id': currentUrl
+      }
+    });
+    
+    document.head.appendChild(script);
+    
+    return () => {
+      document.title = 'AquaPartes';
+      if (script) {
+        document.head.removeChild(script);
+      }
+    };
+  }, []);
   return (
     <>
+      {/* Breadcrumb */}
+      <div className="bg-white shadow-sm">
+        <div className="max-w-7xl mx-auto px-4 py-4">
+          <Breadcrumb items={[
+            { name: 'Inicio', path: '/' },
+            { name: 'Sobre Nosotros', path: '' }
+          ]} />
+        </div>
+      </div>
+
       {/* Hero Section */}
-      <div className="relative py-32 -mt-24 text-white">
+      <div className="relative py-32 -mt-16 text-white" itemScope itemType="https://schema.org/AboutPage">
         <div 
           className="absolute inset-0 about-hero"
           style={{
@@ -14,7 +92,8 @@ export const AboutUs = () => {
           <div className="absolute inset-0 bg-black/60"></div>
         </div>
         <div className="container mx-auto px-4 relative z-10 text-center pt-24">
-          <h1 className="text-4xl md:text-5xl font-bold mb-4">Sobre Nosotros</h1>
+          <h1 className="text-4xl md:text-5xl font-bold mb-4" itemProp="headline">Sobre Nosotros</h1>
+          <meta itemProp="description" content="29 años de excelencia en tratamiento de agua y soluciones ambientales" />
           <p className="text-xl md:text-2xl max-w-3xl mx-auto">29 años de excelencia en tratamiento de agua y soluciones ambientales</p>
         </div>
       </div>
@@ -27,8 +106,8 @@ export const AboutUs = () => {
         </div>
         <div className="container mx-auto px-4 relative z-10">
           <div className="max-w-4xl mx-auto text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-800 mb-6">AQUA PARTES</h2>
-            <p className="text-lg text-gray-600 mb-8">
+            <h2 className="text-3xl font-bold text-gray-800 mb-6" itemProp="name">AQUA PARTES</h2>
+            <p className="text-lg text-gray-600 mb-8" itemProp="description">
               Somos una empresa peruana especializada en Sistemas de Tratamiento de Agua, Efluentes Domésticos e Industriales. 
               Con 29 años de experiencia, hemos atendido a más de 200 empresas, siendo reconocidos por nuestra calidad y compromiso.
             </p>
@@ -136,7 +215,7 @@ export const AboutUs = () => {
       </section>
 
       {/* CTA */}
-      <section className="py-16 bg-slate-950 text-white">
+      <section className="py-16 bg-slate-950 text-white" itemScope itemType="https://schema.org/ContactPage">
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-3xl font-bold mb-6">¿Listo para trabajar juntos?</h2>
           <p className="text-xl mb-8 max-w-2xl mx-auto">Contáctanos hoy mismo y descubre cómo podemos ayudarte a alcanzar tus objetivos.</p>

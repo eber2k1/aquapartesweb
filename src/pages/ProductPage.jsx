@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link, useLocation } from 'react-router-dom';
 import { productsApi } from '../services/api';
 import ProductImageZoom from '../components/ProductImageZoom';
+import Breadcrumb from '../components/Breadcrumb';
 
 export const ProductPage = () => {
     const { id: slug } = useParams();
@@ -193,20 +194,15 @@ export const ProductPage = () => {
         <div className="bg-gray-50 min-h-screen" itemScope itemType="http://schema.org/Product">
             {/* Breadcrumb */}
             <div className="bg-white shadow-sm">
-                <div className="container mx-auto px-4 py-4">
-                    <nav className="flex" aria-label="Breadcrumb">
-                        <ol className="flex items-center space-x-2">
-                            <li>
-                                <Link to="/" className="text-blue-600 hover:text-blue-800">INICIO</Link>
-                            </li>
-                            <li className="text-gray-400">/</li>
-                            <li>
-                                <Link to="/productos" className="text-blue-600 hover:text-blue-800">PRODUCTOS</Link>
-                            </li>
-                            <li className="text-gray-400">/</li>
-                            <li className="text-gray-600">{product.nombre}</li>
-                        </ol>
-                    </nav>
+                <div className="max-w-7xl mx-auto px-4 py-4">
+                    <Breadcrumb items={[
+                        { name: 'Inicio', path: '/' },
+                        { name: 'Productos', path: '/productos' },
+                        { 
+                            name: product?.nombre || 'Producto',
+                            path: ''
+                        }
+                    ]} />
                 </div>
             </div>
 

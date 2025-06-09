@@ -1,5 +1,6 @@
 import { useRef, useEffect, useMemo } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import Breadcrumb from '../components/Breadcrumb';
 import { useFilters } from '../hooks/useFilters';
 import { useProducts } from '../hooks/useProducts';
 import { useCart } from '../context/cart/use-cart';
@@ -204,6 +205,17 @@ export function Products() {
 
     return (
         <main className="container mx-auto px-4 py-4">
+            {/* Breadcrumb */}
+            <Breadcrumb items={[
+                { name: 'Inicio', path: '/' },
+                { 
+                    name: filters.categories?.length 
+                        ? `Productos en ${filters.categories.join(', ')}` 
+                        : 'Productos',
+                    path: '/productos'
+                }
+            ]} />
+            
             {/* Page Title - For visual display only, actual title is set in useEffect */}
             <h1 className="sr-only">
                 {filters.categories?.length ? `${filters.categories.join(', ')} | AquaPartes` : 'Productos | AquaPartes'}
