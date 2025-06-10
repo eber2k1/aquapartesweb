@@ -27,13 +27,6 @@ La aplicación está desplegada en: [aquapartesweb.vercel.app](https://aquaparte
 - Mejorada la funcionalidad de filtrado de productos
 - Mejorada la experiencia de usuario en dispositivos móviles
 
-## Comenzando
-
-### Prerrequisitos
-
-- Node.js (v14 or later)
-- npm (v6 or later)
-
 ## Tecnologías Utilizadas
 
 - [React](https://reactjs.org/) - Biblioteca de JavaScript para construir interfaces de usuario
