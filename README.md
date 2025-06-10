@@ -1,12 +1,46 @@
-# React + Vite
+# Aqua Partes - Catálogo de Productos
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+[![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](https://reactjs.org/)
+[![Vite](https://img.shields.io/badge/Vite-B73BFE?style=for-the-badge&logo=vite&logoColor=FFD62E)](https://vitejs.dev/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
 
-Currently, two official plugins are available:
+> **Nota:** Este es un repositorio privado. El acceso está restringido a los desarrolladores autorizados.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Catálogo digital para Aqua Partes, desarrollado con tecnologías web modernas para mostrar productos de manera eficiente y atractiva. Este proyecto sirve como vitrina digital, mientras que los procesos de facturación y pagos se gestionan externamente.
 
-## Expanding the ESLint configuration
+## 🌐 En Vivo
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+La aplicación está desplegada en: [aquapartesweb.vercel.app](https://aquapartesweb.vercel.app/)
+
+## Características
+
+- 🛍️ Catálogo de productos con categorías y filtros
+- 🔍 Búsqueda de productos
+- 📱 Diseño responsive para móviles
+- ⚡ Alto rendimiento con Vite
+- 🎨 Interfaz moderna con Tailwind CSS
+- 🔒 Sin manejo de pagos (procesado externamente)
+
+## Actualizaciones Recientes
+
+- Añadido modal de filtros optimizado para móviles con animaciones
+- Mejorada la funcionalidad de filtrado de productos
+- Mejorada la experiencia de usuario en dispositivos móviles
+
+## Comenzando
+
+### Prerrequisitos
+
+- Node.js (v14 or later)
+- npm (v6 or later)
+
+## Tecnologías Utilizadas
+
+- [React](https://reactjs.org/) - Biblioteca de JavaScript para construir interfaces de usuario
+- [Vite](https://vitejs.dev/) - Herramienta de desarrollo frontend de próxima generación
+- [Tailwind CSS](https://tailwindcss.com/) - Framework CSS con utilidades
+- [React Icons](https://react-icons.github.io/react-icons/) - Íconos populares para proyectos React
+
+## Licencia
+
+Este es un proyecto privado. Todos los derechos reservados.
