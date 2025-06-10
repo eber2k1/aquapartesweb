@@ -35,12 +35,12 @@ const CollapsibleSection = ({ title, children, isOpen: propsIsOpen, onToggle }) 
 export const ProductFilters = ({ 
     categories = [], 
     brands = [],
-    categoryToSubcategories = {}
+    categoryToSubcategories = {},
+    initialBrand
 }) => {
     const { 
         filters, 
-        updateFilters,
-        initialBrand
+        updateFilters
     } = useFilters();
 
     // Handle initial brand
