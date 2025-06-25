@@ -21,7 +21,7 @@ export const Banner = ({ images, interval = 4000 }) => {
 
   return (
     <div 
-      className="w-full h-36 md:h-150 overflow-hidden relative"
+      className="hidden md:block w-full h-48 sm:h-64 md:h-96 lg:h-150 overflow-hidden relative"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >

@@ -21,10 +21,10 @@ export const MainPage = () => {
         return <PageLoader message="Cargando página principal..." />;
     }
     const bannerImages = [
-        "/banner-main-products.png",
-        "/banner-membranes-toray.png",
-        "/banner-valves-pentair.png",
-        "/banner-bomb-flint-and-walling.png"
+        "/banner01.png",
+        "/banner02.png",
+        "/banner03.png",
+        "/banner04.png"
     ];
     
     return (
