@@ -38,14 +38,14 @@ export const ProductList = ({ products, error, onAddToCart }) => {
                         </div>
                         <div className="relative h-48 flex items-center justify-center p-4">
                             <img 
-                                src={product.imagen || 'https://via.placeholder.com/300'} 
+                                src={product.imagen || 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIiB2aWV3Qm94PSIwIDAgMzAwIDMwMCI+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgc3R5bGU9ImZpbGw6I2YyZjJmMjtmaWxsLW9wYWNpdHk6MC4xOyIvPjwvc3ZnPg=='} 
                                 alt={`${product.nombre}${product.marca_nombre ? ` de ${product.marca_nombre}` : ''}`}
                                 className="max-h-full max-w-full object-contain"
                                 width="300"
                                 height="300"
                                 onError={(e) => {
                                     e.target.onerror = null;
-                                    e.target.src = 'https://via.placeholder.com/300';
+                                    e.target.src = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIiB2aWV3Qm94PSIwIDAgMzAwIDMwMCI+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgc3R5bGU9ImZpbGw6I2YyZjJmMjtmaWxsLW9wYWNpdHk6MC4xOyIvPjwvc3ZnPg==';
                                 }}
                                 loading="lazy"
                                 decoding="async"
