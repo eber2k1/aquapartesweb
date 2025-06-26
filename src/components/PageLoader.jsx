@@ -26,15 +26,18 @@ const dotVariants = {
     transition: {
       duration: 1.5,
       repeat: Infinity,
-      repeatType: "loop"
+      repeatType: "loop",
+      ease: "easeInOut"
     }
   }
 };
 
+
+
 const PageLoader = ({ message = 'Cargando...' }) => {
   return (
     <motion.div
-      className="w-full min-h-[90vh] flex flex-col items-center justify-center py-16"
+      className="w-full min-h-[80vh] flex flex-col items-center justify-center py-16"
       initial="hidden"
       animate="visible"
       exit="exit"
@@ -44,12 +47,14 @@ const PageLoader = ({ message = 'Cargando...' }) => {
         <motion.div
           className="text-5xl text-sky-600 mb-4"
           animate={{
-            rotate: 360,
+            y: [0, -10, 0, 10, 0],
+            rotate: [0, 5, 0, -5, 0]
           }}
           transition={{
-            duration: 2,
+            duration: 3,
             repeat: Infinity,
-            ease: "linear"
+            repeatType: "loop",
+            ease: "easeInOut"
           }}
         >
           <FaWater />

@@ -5,26 +5,38 @@ import { categoriesApi } from '../services/api';
 
 export const DropdownCategories = ({ isOpen, onClose, mobileView = false, onItemClick = () => {} }) => {
     const [categories, setCategories] = useState([]);
-    const [loading, setLoading] = useState(true);
+    const [isLoading, setIsLoading] = useState(false);
     const { updateFilters } = useFilters();
     const navigate = useNavigate();
 
+    // Fetch categories on component mount
     useEffect(() => {
+        let isMounted = true;
+        
         const fetchCategories = async () => {
+            if (categories.length > 0) return; // Skip if already loaded
+            
+            setIsLoading(true);
             try {
                 const data = await categoriesApi.getCategories();
-                setCategories(data);
+                if (isMounted) {
+                    setCategories(data);
+                }
             } catch (error) {
                 console.error('Error fetching categories:', error);
             } finally {
-                setLoading(false);
+                if (isMounted) {
+                    setIsLoading(false);
+                }
             }
         };
 
-        if (isOpen) {
-            fetchCategories();
-        }
-    }, [isOpen]);
+        fetchCategories();
+        
+        return () => {
+            isMounted = false; // Cleanup function to prevent state updates after unmount
+        };
+    }, [categories.length]); // Only re-run if categories.length changes
 
     const handleCategoryClick = (categoryName) => {
         updateFilters({
@@ -38,7 +50,7 @@ export const DropdownCategories = ({ isOpen, onClose, mobileView = false, onItem
 
     if (!isOpen) return null;
 
-    if (loading) {
+    if (isLoading && categories.length === 0) {
         return (
             <div className="absolute left-0 right-0 bg-white shadow-lg rounded-b-lg p-4 z-50">
                 <p>Cargando categorías...</p>
