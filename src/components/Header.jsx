@@ -71,7 +71,7 @@ export default function Header() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 h-full flex justify-between items-center">
           <div className="flex items-center space-x-4">
             {/* Logo */}
-            <Link to="/" className="relative z-10 flex items-center">
+            <Link to="/" className="relative z-20 flex items-center">
               <img
                 className="h-26 lg:h-28 w-auto transition-all duration-200"
                 src="/logoconmarcos.png"
@@ -88,31 +88,45 @@ export default function Header() {
           {/* Desktop nav - Only show on large screens */}
           <nav className="hidden lg:flex items-center space-x-8 text-white font-medium text-lg">
             <Link to="/" className="hover:text-cyan-300 transition-colors duration-200">INICIO</Link>
-            <div
-              className="relative"
-              onMouseEnter={() => setShowCategories(true)}
-              onMouseLeave={() => setShowCategories(false)}
-              ref={categoriesRef}
-            >
-              <Link
-                to="/productos"
-                className={`hover:text-cyan-300 flex items-center transition-colors duration-200 uppercase ${showCategories ? 'text-cyan-300' : ''}`}
+            <div className=" z-30" ref={categoriesRef}>
+              <div 
+                className="h-full flex items-center"
+                onMouseEnter={() => setShowCategories(true)}
+                onMouseLeave={() => setShowCategories(false)}
               >
-                PRODUCTOS
-                <svg
-                  className={`ml-1 h-4 w-4 transition-transform ${showCategories ? 'rotate-180' : ''}`}
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
+                <Link
+                  to="/productos"
+                  className={`hover:text-cyan-300 flex items-center transition-colors duration-200 uppercase ${showCategories ? 'text-cyan-300' : ''}`}
                 >
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                </svg>
-              </Link>
-              <DropdownCategories
-                isOpen={showCategories}
-                onClose={() => setShowCategories(false)}
-                className="absolute left-0 top-full mt-2"
-              />
+                  PRODUCTOS
+                  <svg
+                    className={`ml-1 h-4 w-4 transition-transform ${showCategories ? 'rotate-180' : ''}`}
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  </svg>
+                </Link>
+              </div>
+              <div 
+                className="absolute left-32 right-32"
+                onMouseEnter={() => setShowCategories(true)}
+                onMouseLeave={() => setShowCategories(false)}
+              >
+                <div className="w-full bg-white shadow-lg z-40 rounded-xl overflow-hidden" style={{
+                    borderTopLeftRadius: '0.75rem',
+                    borderTopRightRadius: '0.75rem',
+                    borderBottomLeftRadius: '1rem',
+                    borderBottomRightRadius: '1rem'
+                }}>
+                  <DropdownCategories
+                    isOpen={showCategories}
+                    onClose={() => setShowCategories(false)}
+                    className="w-full"
+                  />
+                </div>
+              </div>
             </div>
             <Link to="/marcas" className="hover:text-cyan-300 transition-colors duration-200 uppercase">MARCAS</Link>
             <Link to="/nosotros" className="hover:text-cyan-300 transition-colors duration-200 uppercase">NOSOTROS</Link>
@@ -166,7 +180,7 @@ export default function Header() {
               </svg>
             </button>
             <div className="flex flex-col w-full max-w-xs mx-auto pt-8 pb-12 space-y-1">
-              <div className="w-full border-b border-sky-700/50">
+              <div className="w-full border-b border-sky-900">
                 <Link
                   to="/"
                   className="flex items-center w-full text-white hover:text-cyan-300 transition-colors duration-200 py-4 pl-6 pr-6"
@@ -175,7 +189,7 @@ export default function Header() {
                   <span className="font-medium text-lg">Inicio</span>
                 </Link>
               </div>
-              <div className="w-full border-b border-sky-700/50">
+              <div className="w-full border-b border-sky-900">
                 <Link
                   to="/nosotros"
                   className="flex items-center w-full text-white hover:text-cyan-300 transition-colors duration-200 py-4 pl-6 pr-6"
@@ -184,7 +198,7 @@ export default function Header() {
                   <span className="font-medium text-lg">Nosotros</span>
                 </Link>
               </div>
-              <div className="w-full border-b border-sky-700/50">
+              <div className="w-full border-b border-sky-900">
                 <div className="flex items-center w-full">
                   <Link
                     to="/productos"
@@ -198,7 +212,7 @@ export default function Header() {
                         e.stopPropagation();
                         setShowCategories(!showCategories);
                       }}
-                      className="p-1.5 text-cyan-300 hover:bg-sky-900/50 rounded-lg transition-colors duration-200 ml-2"
+                      className="p-1.5 text-cyan-300 hover:bg-sky-900 rounded-lg transition-colors duration-200 ml-2"
                       aria-label={showCategories ? 'Ocultar categorías' : 'Mostrar categorías'}
                     >
                       <svg
@@ -213,7 +227,7 @@ export default function Header() {
                   </Link>
                 </div>
                 {showCategories && (
-                  <div className="bg-sky-900/50 rounded-lg py-2 px-4 mt-1 mb-2">
+                  <div className="bg-sky-900/50 rounded-lg py-2 px-4 mt-1 mb-2 ">
                     <DropdownCategories
                       isOpen={true}
                       onClose={() => { }}
@@ -236,7 +250,7 @@ export default function Header() {
                   <span className="font-medium text-lg">Marcas</span>
                 </Link>
               </div>
-              <div className="w-full border-b border-sky-700/50">
+              <div className="w-full border-b border-sky-700/50 ">
                 <Link
                   to="/contacto"
                   className="flex items-center w-full text-white hover:text-cyan-300 transition-colors duration-200 py-4 pl-6 pr-6"

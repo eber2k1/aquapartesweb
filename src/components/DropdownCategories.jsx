@@ -52,7 +52,7 @@ export const DropdownCategories = ({ isOpen, onClose, mobileView = false, onItem
 
     if (isLoading && categories.length === 0) {
         return (
-            <div className="absolute left-0 right-0 bg-white shadow-lg rounded-b-lg p-4 z-50">
+            <div className="absolute left-0 right-0 bg-white shadow-lg rounded-lg p-4 z-50">
                 <p>Cargando categorías...</p>
             </div>
         );
@@ -70,7 +70,7 @@ export const DropdownCategories = ({ isOpen, onClose, mobileView = false, onItem
                             onItemClick();
                         }}
                     >
-                        <div className="flex items-center px-6 py-3 text-white/90 hover:text-white transition-colors duration-200 group-hover:bg-sky-800/30 rounded-lg">
+                        <div className="flex items-center px-6 py-3 text-white/90 hover:text-white transition-colors duration-200 group-hover:bg-sky-800/30 rounded-lg ">
                             {category.categoria_imagen && (
                                 <div className="w-8 h-8 rounded-md bg-sky-900/50 flex items-center justify-center mr-3 flex-shrink-0">
                                     <img 
@@ -97,29 +97,44 @@ export const DropdownCategories = ({ isOpen, onClose, mobileView = false, onItem
 
     return (
         <div 
-            className="absolute left-0 bg-white shadow-lg rounded-lg py-2 z-50 min-w-[200px] border-2 border-sky-200"
+            className={`bg-white shadow-xl z-50 w-full py-4 rounded-xl overflow-hidden ${isOpen ? 'block' : 'hidden'}`}
             onMouseLeave={onClose}
+            style={{
+                borderTop: '2px solid #0ea5e9',
+                boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)',
+                borderTopLeftRadius: '0.75rem',
+                borderTopRightRadius: '0.75rem',
+                borderBottomLeftRadius: '1rem',
+                borderBottomRightRadius: '1rem'
+            }}
         >
-            <div className="flex flex-col">
-                {categories.map((category, index) => (
-                    <div 
-                        key={index}
-                        className="flex items-center px-12 py-2 hover:bg-sky-100 cursor-pointer"
-                        onClick={() => handleCategoryClick(category.categoria)}
-                    >
-                        {category.categoria_imagen && (
-                            <img 
-                                src={category.categoria_imagen} 
-                                alt={category.categoria}
-                                className="w-10 h-10 object-cover rounded mr-3"
-                                onError={(e) => {
-                                    e.target.src = '/placeholder-category.png';
-                                }}
-                            />
-                        )}
-                        <span className="text-gray-800">{category.categoria}</span>
-                    </div>
-                ))}
+            <div className="w-full px-6">
+                <div className="grid grid-cols-4 gap-2 w-full">
+                    {categories.map((category, index) => (
+                        <div 
+                            key={index}
+                            className="group flex items-center p-3 hover:bg-sky-50 rounded-xl cursor-pointer transition-all duration-200 border border-transparent hover:border-sky-100 overflow-hidden h-40"
+                            onClick={() => handleCategoryClick(category.categoria)}
+                        >
+                            {category.categoria_imagen && (
+                                <div className="w-28 h-28 flex-shrink-0 flex items-center justify-center mr-3 bg-white rounded-xl p-1.5 shadow-sm">
+                                    <img 
+                                        src={category.categoria_imagen} 
+                                        alt={category.categoria}
+                                        className="w-25 h-25 object-contain"
+                                        onError={(e) => {
+                                            e.target.src = '/placeholder-category.png';
+                                        }}
+                                    />
+                                </div>
+                            )}
+                            <span className="text-sm font-medium text-gray-800 group-hover:text-sky-600 transition-colors duration-200 truncate max-w-[280px] block">
+                                {category.categoria}
+                            </span>
+                        </div>
+                    ))}
+                </div>
+
             </div>
         </div>
     );
