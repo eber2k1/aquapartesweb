@@ -49,7 +49,7 @@ export default function Footer() {
           {/* Logo and Company Info */}
           <div className="md:col-span-1">
             <Link to="/" className="inline-block mb-4">
-              <img src="/logoconmarcos.png" alt="AQUA PARTES Logo" className="h-32" />
+              <img src="/aquapartes-logo.png" alt="AQUA PARTES Logo" className="h-28" />
             </Link>
             <p className="text-sm">
               Soluciones integrales en tratamiento de agua y efluentes.
