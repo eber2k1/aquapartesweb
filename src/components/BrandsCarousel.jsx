@@ -17,8 +17,11 @@ export const BrandsCarousel = () => {
                 
                 // Agrupar marcas por nombre y combinar categorías
                 const groupedBrands = data.reduce((acc, brand) => {
+                    // Validar que brand.marca existe y no es null/undefined
+                    if (!brand.marca) return acc;
+                    
                     const existingBrand = acc.find(b => 
-                        b.marca.toLowerCase() === brand.marca.toLowerCase()
+                        b.marca && b.marca.toLowerCase() === brand.marca.toLowerCase()
                     );
                     
                     if (existingBrand) {
@@ -104,7 +107,7 @@ export const BrandsCarousel = () => {
             carousel.removeEventListener('mouseleave', startScrolling);
             document.removeEventListener('visibilitychange', handleVisibilityChange);
         };
-    }, [loading]);
+    }, [loading, PAUSE_ON_HOVER]);
 
     if (loading) {
         return (

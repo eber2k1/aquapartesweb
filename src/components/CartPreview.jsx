@@ -7,12 +7,12 @@ const CartPreview = ({ onClose }) => {
   const { cart, removeFromCart, updateQuantity } = useCart();
   const previewRef = useRef();
 
-  // Close preview when clicking outside - only for mobile
+
   useEffect(() => {
     if (!window.matchMedia('(max-width: 1023px)').matches) return;
     
     const handleClickOutside = (event) => {
-      // Don't close if clicking inside the preview or on cart icon
+
       if (previewRef.current?.contains(event.target)) return;
       
       const cartIcon = document.querySelector('[aria-label="Carrito"]');
@@ -33,7 +33,6 @@ const CartPreview = ({ onClose }) => {
     );
   }
 
-  // Use different classes based on screen size
   const isMobile = window.matchMedia('(max-width: 1023px)').matches;
   
   return (

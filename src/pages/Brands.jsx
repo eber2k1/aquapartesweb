@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { brandsApi } from '../services/api';
 import { useFilters } from '../hooks/useFilters';
 import PageLoader from '../components/PageLoader';
+import AllBrands from '../components/AllBrands';
 
 export const Brands = () => {
     const [brands, setBrands] = useState([]);
@@ -102,10 +103,10 @@ export const Brands = () => {
             'itemListElement': brands.map((brand, index) => ({
                 '@type': 'Brand',
                 'position': index + 1,
-                'name': brand.marca,
+                'name': brand.marca, // Usando el alias 'marca' de la nueva query
                 'description': `Productos de la marca ${brand.marca} disponibles en AquaPartes`,
                 'url': `${window.location.origin}/productos?marca=${encodeURIComponent(brand.marca)}`,
-                'logo': brand.marca_imagen || 'https://via.placeholder.com/150'
+                'logo': brand.marca_imagen || 'https://via.placeholder.com/150' // Usando el alias 'marca_imagen'
             }))
         });
         
@@ -118,14 +119,12 @@ export const Brands = () => {
         };
     }, [brands]);
 
-    const handleViewProducts = (brandName) => {
-        // Actualizar el estado global con la marca seleccionada
+    const handleViewProducts = (brandName, category = null) => {
         updateFilters({ 
             brands: [brandName],
-            categories: [],
+            categories: category ? [category] : [],
             subcategories: []
         });
-        // Navegar a la página de productos
         navigate('/productos');
     };
 
@@ -133,39 +132,29 @@ export const Brands = () => {
         const fetchBrands = async () => {
             try {
                 const data = await brandsApi.getBrands();
-                // Ordenar alfabéticamente por el campo 'marca'
-                // Agrupar marcas por nombre y combinar categorías
-                const groupedBrands = data.reduce((acc, brand) => {
-                    const existingBrand = acc.find(b => 
-                        b.marca.toLowerCase() === brand.marca.toLowerCase()
-                    );
-                    
-                    if (existingBrand) {
-                        // Si la categoría no está ya incluida, la añadimos
-                        if (brand.categoria && !existingBrand.categorias?.includes(brand.categoria)) {
-                            existingBrand.categorias = [...(existingBrand.categorias || []), brand.categoria];
-                        }
-                        // Mantener la primera imagen que encontremos
-                        if (!existingBrand.marca_imagen && brand.marca_imagen) {
-                            existingBrand.marca_imagen = brand.marca_imagen;
-                        }
-                        return acc;
-                    }
-                    
-                    // Si es una marca nueva, la añadimos con un array de categorías
-                    return [...acc, {
-                        ...brand,
-                        categorias: brand.categoria ? [brand.categoria] : []
-                    }];
-                }, []);
                 
-                // Ordenar alfabéticamente
-                const sortedBrands = [...groupedBrands].sort((a, b) => 
-                    a.marca.localeCompare(b.marca, 'es', {sensitivity: 'base'})
-                );
+                // Procesar las categorías que vienen como string separado por comas
+                const processedBrands = data.map(brand => ({
+                    ...brand,
+                    // Convertir la cadena de categorías en un array
+                    categories: brand.categorias && brand.categorias !== 'Sin categoría' 
+                        ? brand.categorias.split(', ').filter(cat => cat.trim()) 
+                        : []
+                }));
+                
+                // El ordenamiento ya se hace en la consulta SQL (ORDER BY m.relevancia DESC, m.nombre ASC)
+                // pero podemos mantener el ordenamiento aquí por seguridad
+                const sortedBrands = [...processedBrands].sort((a, b) => {
+                    // Primero ordenar por relevancia (relevancia 1 va primero)
+                    if (a.relevancia !== b.relevancia) {
+                        return b.relevancia - a.relevancia; // 1 antes que 0
+                    }
+                    // Si tienen la misma relevancia, ordenar alfabéticamente
+                    return a.marca.localeCompare(b.marca, 'es', {sensitivity: 'base'});
+                });
+                
                 setBrands(sortedBrands);
             } catch (err) {
-                console.error('Error cargando marcas:', err);
                 setError(err.message);
             } finally {
                 setLoading(false);
@@ -198,60 +187,15 @@ export const Brands = () => {
     }
 
     return (
-        <div className="container mx-auto px-4 py-8" itemScope itemType="https://schema.org/ItemList">
-            <h1 className="text-3xl font-bold text-gray-800 mb-8 text-center">Marcas Aliadas</h1>
-            <meta itemProp="name" content="Marcas Aliadas" />
-            <meta itemProp="description" content="Descubre nuestras marcas aliadas de confianza. Ofrecemos productos de las mejores marcas en el mercado." />
-            
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
-                {brands.map((brand, index) => (
-                    <div 
-                        key={index} 
-                        className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 flex flex-col"
-                    >
-                        <div className="p-4 flex-grow flex flex-col items-center">
-                            {brand.marca_imagen ? (
-                                <div itemProp="item" itemScope itemType="https://schema.org/Thing">
-                                <img 
-                                    src={brand.marca_imagen} 
-                                    alt={`Logotipo de ${brand.marca}`}
-                                    className="h-24 w-auto object-contain mb-3"
-                                    onError={(e) => {
-                                        e.target.onerror = null;
-                                        e.target.src = '/placeholder-brand.png';
-                                    }}
-                                    itemProp="image"
-                                />
-                                <meta itemProp="name" content={brand.marca} />
-                                <meta itemProp="url" content={`${window.location.origin}/productos?marca=${encodeURIComponent(brand.marca)}`} />
-                            </div>
-                            ) : (
-                                <div className="h-24 w-full flex items-center justify-center bg-gray-100 mb-3">
-                                    <span className="text-gray-400">Sin imagen</span>
-                                </div>
-                            )}
-                            <h3 className="text-lg font-semibold text-center text-gray-800 mb-2">
-                                {brand.marca}
-                            </h3>
-                            {brand.categorias && brand.categorias.length > 0 && (
-                                <div className="text-sm text-gray-500 mb-3 text-center space-y-1">
-                                    {brand.categorias.map((categoria, i) => (
-                                        <div key={i} className="break-words">
-                                            {categoria}
-                                        </div>
-                                    ))}
-                                </div>
-                            )}
-                        </div>
-                        <button
-                            onClick={() => handleViewProducts(brand.marca)}
-                            className="w-full bg-sky-950 text-white py-2 hover:bg-sky-700 transition-colors duration-200 text-sm font-medium"
-                        >
-                            Ver productos
-                        </button>
-                    </div>
-                ))}
-            </div>
+        <div className="min-h-screen bg-gray-50">
+            <AllBrands 
+                brands={brands}
+                loading={loading}
+                error={error}
+                onViewProducts={handleViewProducts} 
+            />
         </div>
     );
-}
+};
+
+export default Brands;

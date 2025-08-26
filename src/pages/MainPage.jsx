@@ -21,7 +21,7 @@ export const MainPage = () => {
         return <PageLoader message="Cargando página principal..." />;
     }
     const bannerImages = [
-        "/banner01.png",
+        "/slider01.png",
         "/banner02.png",
         "/banner03.png",
         "/banner04.png"

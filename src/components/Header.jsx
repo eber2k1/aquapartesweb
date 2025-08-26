@@ -73,9 +73,9 @@ export default function Header() {
             {/* Logo */}
             <Link to="/" className="relative z-20 flex items-center">
               <img
-                className="h-23 lg:h-28 p-2 w-auto transition-all duration-200"
+                className="h-20 lg:h-28 p-2 w-auto transition-all duration-200"
                 src="/aquapartes-logo.png"
-                alt="Aqua Partes Logo"
+                alt="AquaPartes Logo"
               />
             </Link>
 

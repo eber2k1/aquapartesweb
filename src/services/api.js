@@ -43,20 +43,28 @@ export const productsApi = {
 
 export const brandsApi = {
     getBrands: async () => {
-        const response = await fetch(`${API_BASE_URL}/brands`);
-        if (!response.ok) {
-            throw new Error('Error al cargar las marcas');
+        try {
+            const response = await fetch(`${API_BASE_URL}/brands`);
+            if (!response.ok) {
+                throw new Error(`Error ${response.status}: No se pudieron cargar las marcas`);
+            }
+            return await response.json();
+        } catch (error) {
+            throw new Error(`Error al cargar las marcas: ${error.message}`);
         }
-        return await response.json();
     }
 };
 
 export const categoriesApi = {
     getCategories: async () => {
-        const response = await fetch(`${API_BASE_URL}/categories`);
-        if (!response.ok) {
-            throw new Error('Error al cargar las categorías');
+        try {
+            const response = await fetch(`${API_BASE_URL}/categories`);
+            if (!response.ok) {
+                throw new Error(`Error ${response.status}: No se pudieron cargar las categorías`);
+            }
+            return await response.json();
+        } catch (error) {
+            throw new Error(`Error al cargar las categorías: ${error.message}`);
         }
-        return await response.json();
     }
 };
