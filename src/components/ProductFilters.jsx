@@ -1,5 +1,6 @@
 import { useState, useEffect, Fragment } from 'react';
 import { useFilters } from '../hooks/useFilters';
+import { useNavigate } from 'react-router-dom';
 import { XMarkIcon, FunnelIcon, ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/24/outline';
 
 const CollapsibleSection = ({ title, children, isOpen: propsIsOpen, onToggle }) => {
@@ -38,6 +39,7 @@ export const ProductFilters = ({
     categoryToSubcategories = {},
     initialBrand
 }) => {
+    const navigate = useNavigate();
     const { 
         filters, 
         updateFilters
@@ -99,10 +101,16 @@ export const ProductFilters = ({
     };
 
     const removeFilter = (type, value) => {
-        updateFilters({
+        const newFilters = {
             ...filters,
             [type]: filters[type].filter(item => item !== value)
-        });
+        };
+        updateFilters(newFilters);
+        
+        // Update URL when removing brand filter
+        if (type === 'brands' && newFilters.brands.length === 0) {
+            navigate('/productos', { replace: true });
+        }
     };
 
     const isFilterActive = () => {
@@ -115,8 +123,11 @@ export const ProductFilters = ({
         updateFilters({
             categories: [],
             subcategories: [],
-            brands: initialBrand ? [initialBrand] : []
+            brands: []
         });
+        
+        // Clear URL parameters
+        navigate('/productos', { replace: true });
     };
 
     const [openSections, setOpenSections] = useState({

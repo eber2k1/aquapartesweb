@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { FilterContext } from './FilterContext';
 
@@ -27,12 +27,22 @@ export const FilterProvider = ({ children }) => {
         }
     }, [searchParams]);
 
+    // Effect to update initial brand when URL parameters change
+    useEffect(() => {
+        updateInitialBrand();
+    }, [updateInitialBrand]);
+
     // Update filters
     const updateFilters = useCallback((newFilters) => {
         setFilters(prev => ({
             ...prev,
             ...newFilters
         }));
+        
+        // Clear initialBrand if brands array is empty
+        if (newFilters.brands && newFilters.brands.length === 0) {
+            setInitialBrand(null);
+        }
     }, []);
 
     // Clear all filters
@@ -42,6 +52,7 @@ export const FilterProvider = ({ children }) => {
             subcategories: [],
             brands: []
         });
+        setInitialBrand(null);
     }, []);
 
     // Apply filters to products

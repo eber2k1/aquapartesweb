@@ -28,11 +28,13 @@ export const MainPage = () => {
     ];
     
     return (
-        <div className="space-y-12">
-            <Banner images={bannerImages} interval={5000} />
-            <DescripcionAquapartes />
-            <CategoriesGrid />
+        <div>
             <BrandsCarousel />
+            <Banner images={bannerImages} interval={5000} />
+            <div className="space-y-18 ">
+                <DescripcionAquapartes />
+                <CategoriesGrid />
+            </div>
         </div>
     );
 };

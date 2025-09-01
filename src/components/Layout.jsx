@@ -2,6 +2,7 @@ import { useLocation } from 'react-router-dom';
 import Header from './Header';
 import Footer from './Footer';
 import Breadcrumb from './Breadcrumb';
+import WhatsAppFloat from './WhatsAppFloat';
 
 export const Layout = ({ children }) => {
   const location = useLocation();
@@ -21,6 +22,7 @@ export const Layout = ({ children }) => {
         {children}
       </main>
       <Footer />
+      <WhatsAppFloat />
     </div>
   );
 };

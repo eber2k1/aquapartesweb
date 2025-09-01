@@ -61,7 +61,7 @@ export const CategoriesGrid = () => {
                 } else {
                     setCategories(SAMPLE_CATEGORIES);
                 }
-            } catch (_) {
+            } catch {
                 setError('No se pudieron cargar las categorías. Mostrando datos de ejemplo.');
                 setCategories(SAMPLE_CATEGORIES);
             } finally {
@@ -182,13 +182,13 @@ export const CategoriesGrid = () => {
     }
 
     return (
-        <section className="py-12 bg-gray-50">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <section className="py-12 bg-gray-50 w-full">
+            <div className="w-full px-4 sm:px-6 lg:px-8">
                 <h2 className="text-2xl font-bold text-center text-gray-900 mb-8">Nuestros Productos</h2>
-                <div className="relative">
+                <div className="relative w-full">
                     <div 
                         ref={scrollContainerRef}
-                        className="flex space-x-6 pb-4 overflow-x-hidden -mx-4 px-4 scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent"
+                        className="flex space-x-6 pb-4 overflow-x-hidden -mx-4 px-4 scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent w-full"
                     >
                         {[...categories, ...categories, ...categories].map((category, index) => (
                             <div

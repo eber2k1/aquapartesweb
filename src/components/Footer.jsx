@@ -43,13 +43,17 @@ export default function Footer() {
   ];
 
   return (
-    <footer className="bg-sky-950 text-gray-300 pt-16 pb-8 px-4 sm:px-6 lg:px-8">
+    <footer className="text-gray-300 pt-16 pb-8 px-4 sm:px-6 lg:px-8" style={{ backgroundColor: '#095EA1' }}>
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 mb-12">
           {/* Logo and Company Info */}
           <div className="md:col-span-1">
-            <Link to="/" className="inline-block mb-4">
-              <img src="/aquapartes-logo.png" alt="AQUA PARTES Logo" className="h-28" />
+            <Link to="/" className="group inline-block mb-4 transition-all duration-300 hover:scale-105">
+              <div className="relative bg-white h-36 flex items-center px-6 shadow-md">
+                <img src="/logov8.png" alt="AQUA PARTES Logo" className="h-32 w-auto object-contain" />
+                {/* Efecto de brillo mejorado */}
+                <div className="absolute inset-0 bg-gradient-to-r from-blue-400/0 via-cyan-400/10 to-blue-400/0 opacity-0 group-hover:opacity-100 transition-all duration-300 blur-sm"></div>
+              </div>
             </Link>
             <p className="text-sm">
               Soluciones integrales en tratamiento de agua y efluentes.
@@ -113,7 +117,7 @@ export default function Footer() {
         </div>
 
         {/* Bottom Bar */}
-        <div className="border-t border-sky-800 pt-8 flex flex-col md:flex-row justify-between items-center">
+        <div className="border-t border-white/20 pt-8 flex flex-col md:flex-row justify-between items-center">
           <p className="text-sm text-gray-400 mb-4 md:mb-0">
             {new Date().getFullYear()} AQUAPARTES del grupo AQUAFIL. Todos los derechos reservados.
           </p>
