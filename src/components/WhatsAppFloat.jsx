@@ -57,7 +57,7 @@ export default function WhatsAppFloat() {
           <div className="absolute bottom-20 right-0 mb-2 bg-white rounded-2xl shadow-2xl p-8 border border-gray-100 transform transition-all duration-500 ease-out whatsapp-slideUp w-80">
             <div className="text-center">
               <div className="bg-gradient-to-r from-green-400 to-green-600 text-white px-6 py-3 rounded-full text-base font-semibold mb-6">
-                📱 Escanea para chatear
+                💬 ¡Cotiza tus productos aquí!
               </div>
               <div className="bg-white p-4 rounded-xl shadow-inner border-2 border-gray-50">
                 <img 
@@ -72,11 +72,16 @@ export default function WhatsAppFloat() {
                   {phoneNumber}
                 </p>
                 <p className="text-sm text-gray-600 leading-relaxed">
-                  ¡Estamos listos para ayudarte con todos tus productos de tratamiento de agua!
+                  📱 <strong>Escanea el código</strong> con tu celular o <strong>haz clic en el botón</strong> para obtener cotización personalizada de todos nuestros productos de tratamiento de agua
                 </p>
+                <div className="bg-green-50 border border-green-200 rounded-lg p-3 mt-4">
+                  <p className="text-xs text-green-700 font-medium">
+                    ✨ Respuesta inmediata • Precios especiales • Asesoría gratuita
+                  </p>
+                </div>
                 <div className="flex items-center justify-center space-x-2 mt-4">
                   <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-                  <span className="text-xs text-green-600 font-medium">En línea</span>
+                  <span className="text-xs text-green-600 font-medium">En línea ahora</span>
                 </div>
               </div>
             </div>
