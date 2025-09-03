@@ -54,32 +54,32 @@ export default function WhatsAppFloat() {
       <div className="fixed bottom-6 right-6 z-50">
         {/* QR Code Tooltip */}
         {showQR && (
-          <div className="absolute bottom-20 right-0 mb-2 bg-white rounded-2xl shadow-2xl p-6 border border-gray-100 transform transition-all duration-500 ease-out whatsapp-slideUp w-80">
+          <div className="absolute bottom-20 right-0 mb-2 bg-white rounded-2xl shadow-2xl p-4 border border-gray-100 transform transition-all duration-500 ease-out whatsapp-slideUp w-80">
             <div className="text-center">
-              <div className="bg-gradient-to-r from-green-400 to-green-600 text-white px-6 py-2 rounded-full text-base font-semibold mb-4">
+              <div className="bg-gradient-to-r from-green-400 to-green-600 text-white px-4 py-1 rounded-full text-sm font-semibold mb-3">
                 💬 ¡Cotiza tus productos aquí!
               </div>
-              <div className="bg-white p-3 rounded-xl shadow-inner border-2 border-gray-50">
+              <div className="bg-white p-2 rounded-xl shadow-inner border-2 border-gray-50">
                 <img 
                   src={qrCodeUrl} 
                   alt="QR Code WhatsApp" 
-                  className="w-40 h-40 mx-auto rounded-lg"
+                  className="w-36 h-36 mx-auto rounded-lg"
                   loading="lazy"
                 />
               </div>
-              <div className="mt-4 space-y-2">
-                <p className="text-base font-semibold text-gray-800">
+              <div className="mt-3 space-y-1">
+                <p className="text-sm font-semibold text-gray-800">
                   {phoneNumber}
                 </p>
-                <p className="text-sm text-gray-600 leading-relaxed">
+                <p className="text-xs text-gray-600 leading-relaxed">
                   📱 <strong>Escanea el código</strong> con tu celular o <strong>haz clic en el botón</strong> para obtener cotización personalizada de todos nuestros productos de tratamiento de agua
                 </p>
-                <div className="bg-green-50 border border-green-200 rounded-lg p-2 mt-3">
+                <div className="bg-green-50 border border-green-200 rounded-lg p-1.5 mt-2">
                   <p className="text-xs text-green-700 font-medium">
                     ✨ Respuesta inmediata • Precios especiales • Asesoría gratuita
                   </p>
                 </div>
-                <div className="flex items-center justify-center space-x-2 mt-3">
+                <div className="flex items-center justify-center space-x-2 mt-2">
                   <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
                   <span className="text-xs text-green-600 font-medium">En línea ahora</span>
                 </div>
