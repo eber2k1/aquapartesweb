@@ -68,7 +68,7 @@ const BrandCard = ({ brand, onBrandClick, onViewProducts }) => {
               </div>
             ) : (
               <div className="text-center">
-                <span className="text-xs text-gray-500 bg-gray-50 px-2 py-1 rounded-md">Todas las categorías</span>
+                <span className="text-xs text-gray-500 bg-gray-50 px-2 py-1 rounded-md">Muy pronto tendrá productos</span>
               </div>
             )}
           </div>

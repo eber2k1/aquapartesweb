@@ -17,7 +17,6 @@ export const FilterProvider = ({ children }) => {
         if (brandParam) {
             const decodedBrand = decodeURIComponent(brandParam);
             setInitialBrand(decodedBrand);
-            // Replace the brands array with only the new brand
             setFilters(prev => ({
                 ...prev,
                 brands: [decodedBrand]
@@ -27,12 +26,10 @@ export const FilterProvider = ({ children }) => {
         }
     }, [searchParams]);
 
-    // Effect to update initial brand when URL parameters change
     useEffect(() => {
         updateInitialBrand();
     }, [updateInitialBrand]);
 
-    // Update filters
     const updateFilters = useCallback((newFilters) => {
         setFilters(prev => ({
             ...prev,
