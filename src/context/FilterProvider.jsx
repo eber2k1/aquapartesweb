@@ -17,10 +17,10 @@ export const FilterProvider = ({ children }) => {
         if (brandParam) {
             const decodedBrand = decodeURIComponent(brandParam);
             setInitialBrand(decodedBrand);
-            // Add the brand to filters if it's not already there
+            // Replace the brands array with only the new brand
             setFilters(prev => ({
                 ...prev,
-                brands: prev.brands.includes(decodedBrand) ? prev.brands : [...prev.brands, decodedBrand]
+                brands: [decodedBrand]
             }));
         } else {
             setInitialBrand(null);
