@@ -17,10 +17,12 @@ export const FilterProvider = ({ children }) => {
         if (brandParam) {
             const decodedBrand = decodeURIComponent(brandParam);
             setInitialBrand(decodedBrand);
-            setFilters(prev => ({
-                ...prev,
+            // Reemplazar completamente los filtros cuando viene de URL
+            setFilters({
+                categories: [],
+                subcategories: [],
                 brands: [decodedBrand]
-            }));
+            });
         } else {
             setInitialBrand(null);
         }
@@ -38,6 +40,20 @@ export const FilterProvider = ({ children }) => {
         
         // Clear initialBrand if brands array is empty
         if (newFilters.brands && newFilters.brands.length === 0) {
+            setInitialBrand(null);
+        }
+    }, []);
+
+    // Replace all filters completely
+    const replaceFilters = useCallback((newFilters) => {
+        setFilters({
+            categories: newFilters.categories || [],
+            subcategories: newFilters.subcategories || [],
+            brands: newFilters.brands || []
+        });
+        
+        // Clear initialBrand if brands array is empty
+        if (!newFilters.brands || newFilters.brands.length === 0) {
             setInitialBrand(null);
         }
     }, []);
@@ -122,6 +138,7 @@ export const FilterProvider = ({ children }) => {
                 initialBrand,
                 updateFilters,
                 clearFilters,
+                replaceFilters,
                 applyFilters,
                 getFilterOptions,
                 updateInitialBrand

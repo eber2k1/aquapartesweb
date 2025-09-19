@@ -1,7 +1,7 @@
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import { brandsApi } from '../services/api';
 import { useNavigate } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
+import {  AnimatePresence } from 'framer-motion';
 
 const FeaturedBrands = ({ onViewAllBrands }) => {
     const [featuredBrands, setFeaturedBrands] = useState([]);

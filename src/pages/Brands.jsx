@@ -13,7 +13,7 @@ export const Brands = () => {
     const location = useLocation();
     const currentUrl = typeof window !== 'undefined' ? window.location.origin + location.pathname : '';
 
-    const { updateFilters } = useFilters();
+    const { replaceFilters } = useFilters();
     
     // Update document head with meta tags
     useEffect(() => {
@@ -120,7 +120,8 @@ export const Brands = () => {
     }, [brands]);
 
     const handleViewProducts = (brandName, category = null) => {
-        updateFilters({ 
+        // Reemplazar completamente los filtros
+        replaceFilters({ 
             brands: [brandName],
             categories: category ? [category] : [],
             subcategories: []
