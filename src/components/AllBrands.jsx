@@ -3,13 +3,24 @@ import { useNavigate } from 'react-router-dom';
 import PageLoader from './PageLoader';
 
 // Brand card component - Minimalist design
-const BrandCard = ({ brand, onBrandClick, onViewProducts }) => {
+const BrandCard = ({ brand, onViewProducts }) => {
   const hasCategories = brand.categories && brand.categories.length > 0;
+  const hasWebUrl = brand.WebUrl && brand.WebUrl.trim() !== '';
+  
+  const handleVisitWebsite = () => {
+    if (hasWebUrl) {
+      // Asegurar que la URL tenga protocolo
+      let url = brand.WebUrl;
+      if (!url.startsWith('http://') && !url.startsWith('https://')) {
+        url = 'https://' + url;
+      }
+      window.open(url, '_blank', 'noopener,noreferrer');
+    }
+  };
   
   return (
     <div 
-      className="bg-white rounded-xl shadow-sm hover:shadow-md transition-all duration-200 border border-gray-100 hover:border-gray-200 cursor-pointer hover:-translate-y-0.5 h-full flex flex-col"
-      onClick={() => onBrandClick(brand.marca)}
+      className="bg-white rounded-xl shadow-sm hover:shadow-md transition-all duration-200 border border-gray-100 hover:border-gray-200 hover:-translate-y-0.5 h-full flex flex-col"
     >
       <div className="p-4 flex flex-col h-full">
         {/* Brand Image */}
@@ -39,7 +50,7 @@ const BrandCard = ({ brand, onBrandClick, onViewProducts }) => {
         </div>
         
         {/* Categories */}
-        <div className="flex-grow flex items-start">
+        <div className="flex-grow flex items-start mb-4">
           <div className="w-full">
             {hasCategories ? (
               <div className="flex flex-wrap gap-1 justify-center">
@@ -72,6 +83,33 @@ const BrandCard = ({ brand, onBrandClick, onViewProducts }) => {
               </div>
             )}
           </div>
+        </div>
+
+        {/* Action Buttons */}
+        <div className="flex-shrink-0 space-y-2">
+          {/* View Products Button */}
+          {hasCategories && (
+            <button
+              onClick={() => onViewProducts(brand.marca)}
+              className="w-full px-4 py-2 bg-sky-600 text-white text-sm font-medium rounded-lg hover:bg-sky-700 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2"
+            >
+              Ver Productos
+            </button>
+          )}
+          
+          {/* Visit Website Button */}
+          {hasWebUrl && (
+            <button
+              onClick={handleVisitWebsite}
+              className="w-full px-4 py-2 bg-gray-600 text-white text-sm font-medium rounded-lg hover:bg-gray-700 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 flex items-center justify-center gap-2"
+              title={`Visitar sitio web de ${brand.marca}`}
+            >
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+              </svg>
+              Sitio Web
+            </button>
+          )}
         </div>
       </div>
     </div>
