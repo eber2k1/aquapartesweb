@@ -84,10 +84,10 @@ const BrandsHeader = ({ searchTerm, onSearchChange, totalBrands, filteredCount }
     <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
       <div className="flex-1">
         <h1 className="text-2xl font-bold text-gray-900 mb-2">
-          Distribuidores Autorizados
+          Representacion tecnica y comercial
         </h1>
         <p className="text-gray-600">
-          Descubre nuestra selección de {totalBrands} distribuidores autorizados 
+          Descubre nuestra selección de {totalBrands} socios estrategicos
         </p>
       </div>
       
