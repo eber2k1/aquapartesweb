@@ -212,7 +212,7 @@ export default function Header() {
             {/* Header mejorado */}
             <div className="flex items-center justify-between p-6 border-b border-sky-800/30 bg-sky-900/50">
               <div className="bg-white rounded-lg p-2 shadow-md">
-                <img className="h-10 w-auto" src="/logov4.png" alt="AquaPartes" />
+                <img className="h-10 w-auto" src="/logov8.png" alt="AquaPartes" />
               </div>
               <button
                 onClick={() => setIsOpen(false)}

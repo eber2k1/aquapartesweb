@@ -3,7 +3,7 @@ const urlsToCache = [
   '/',
   '/static/js/bundle.js',
   '/static/css/main.css',
-  '/aquapartes-icon.png',
+  '/logov8.png',
   '/aquapartes-logo.png'
 ];
 

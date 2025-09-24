@@ -50,7 +50,7 @@ export const AboutUs = () => {
         'url': window.location.origin,
         'logo': {
           '@type': 'ImageObject',
-          'url': `${window.location.origin}/logo.png`
+          'url': `${window.location.origin}/logov8.png`
         }
       },
       'mainEntityOfPage': {
