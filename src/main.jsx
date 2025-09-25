@@ -3,20 +3,32 @@ import ReactDOM from 'react-dom/client';
 import App from './App.jsx';
 import { Analytics } from '@vercel/analytics/react';
 
-// Forzar actualización del Service Worker problemático
+// Forzar limpieza del Service Worker problemático
 if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/sw.js')
-      .then((registration) => {
-        console.log('SW: Nuevo SW registrado para limpieza:', registration);
-        // Forzar actualización si hay uno esperando
-        if (registration.waiting) {
-          registration.waiting.postMessage({ type: 'SKIP_WAITING' });
-        }
-      })
-      .catch((registrationError) => {
-        console.log('SW: Error en registro:', registrationError);
+  window.addEventListener('load', async () => {
+    try {
+      // Desregistrar cualquier SW existente
+      const registrations = await navigator.serviceWorker.getRegistrations();
+      for (let registration of registrations) {
+        console.log('Desregistrando SW existente:', registration.scope);
+        await registration.unregister();
+      }
+      
+      // Registrar el nuevo SW de limpieza
+      const registration = await navigator.serviceWorker.register('/sw.js', {
+        updateViaCache: 'none' // No usar cache para el SW
       });
+      
+      console.log('SW de limpieza registrado:', registration);
+      
+      // Forzar actualización si hay uno esperando
+      if (registration.waiting) {
+        registration.waiting.postMessage({ type: 'SKIP_WAITING' });
+      }
+      
+    } catch (error) {
+      console.log('Error manejando SW:', error);
+    }
   });
 }
 
