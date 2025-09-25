@@ -10,7 +10,6 @@ export const BrandsCarousel = () => {
     const carouselRef = useRef(null);
     const scrollInterval = useRef(null);
     
-    // Los hooks SIEMPRE deben llamarse en el mismo orden
     const navigate = useNavigate();
     const { replaceFilters } = useFilters();
     
@@ -36,49 +35,17 @@ export const BrandsCarousel = () => {
                 setError(null);
                 const data = await brandsApi.getBrands();
                 
-                // Validar que data existe y es un array
-                if (!Array.isArray(data)) {
-                    throw new Error('Invalid data format received from API');
-                }
-                
-                // Agrupar marcas por nombre y combinar categorías
-                const groupedBrands = data.reduce((acc, brand) => {
-                    // Validar que brand.marca existe y no es null/undefined
-                    if (!brand || !brand.marca) return acc;
-                    
-                    const existingBrand = acc.find(b => 
-                        b.marca && b.marca.toLowerCase() === brand.marca.toLowerCase()
-                    );
-                    
-                    if (existingBrand) {
-                        // Si la categoría no está ya incluida, la añadimos
-                        if (brand.categoria && !existingBrand.categorias?.includes(brand.categoria)) {
-                            existingBrand.categorias = [...(existingBrand.categorias || []), brand.categoria];
-                        }
-                        // Mantener la primera imagen que encontremos
-                        if (!existingBrand.marca_imagen && brand.marca_imagen) {
-                            existingBrand.marca_imagen = brand.marca_imagen;
-                        }
-                        return acc;
-                    }
-                    
-                    // Si es una marca nueva, la añadimos con un array de categorías
-                    return [...acc, {
-                        ...brand,
-                        categorias: brand.categoria ? [brand.categoria] : []
-                    }];
-                }, []);
-                
-                // Solo duplicar si tenemos marcas válidas
-                if (groupedBrands.length > 0) {
-                    setBrands([...groupedBrands, ...groupedBrands, ...groupedBrands]);
+                // Simplemente usar los datos tal como vienen de la API
+                if (Array.isArray(data) && data.length > 0) {
+                    // Duplicar para el efecto de scroll infinito
+                    setBrands([...data, ...data, ...data]);
                 } else {
                     setBrands([]);
                 }
             } catch (error) {
                 console.error('Error fetching brands:', error);
-                setError(error.message || 'Error loading brands');
-                setBrands([]); // Asegurar que brands sea un array vacío
+                setError('Error loading brands');
+                setBrands([]);
             } finally {
                 setLoading(false);
             }
@@ -91,14 +58,13 @@ export const BrandsCarousel = () => {
         if (loading || !carouselRef.current) return;
 
         const carousel = carouselRef.current;
-        const containerWidth = carousel.scrollWidth / 3; // Since we tripled the items
+        const containerWidth = carousel.scrollWidth / 3;
         let scrollPosition = 0;
 
         const startScrolling = () => {
             scrollInterval.current = window.requestAnimationFrame(function scroll() {
                 scrollPosition += SCROLL_SPEED;
                 
-                // Reset position when we've scrolled one full container width
                 if (scrollPosition >= containerWidth) {
                     scrollPosition = 0;
                 }
@@ -122,7 +88,6 @@ export const BrandsCarousel = () => {
             carousel.addEventListener('mouseleave', startScrolling);
         }
 
-        // Pause on window blur (tab change)
         const handleVisibilityChange = () => {
             if (document.hidden) {
                 pauseScrolling();
@@ -141,7 +106,6 @@ export const BrandsCarousel = () => {
         };
     }, [loading, PAUSE_ON_HOVER]);
 
-    // Si hay error o no hay marcas, renderizar un componente simple que no rompa la página
     if (error || (!loading && brands.length === 0)) {
         return (
             <section className="bg-sky-700/10 backdrop-blur-sm py-2 mt-0.5 w-full overflow-hidden border-t-20 border-b-6 border-white">
@@ -175,7 +139,6 @@ export const BrandsCarousel = () => {
                         maskImage: 'linear-gradient(90deg, transparent 0%, #000 8%, #000 92%, transparent 100%)',
                     }}
                 >
-                    {/* Efecto de brillo sutil */}
                     <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent animate-pulse opacity-30 pointer-events-none"></div>
                     
                     <div className="flex w-full items-center">
@@ -187,7 +150,6 @@ export const BrandsCarousel = () => {
                                 style={{ width: '120px', height: '50px' }}
                                 aria-label={`Ver productos de la marca ${brand.marca}`}
                             >
-                                {/* Efecto de sombra dinámica */}
                                 <div className="absolute inset-0 bg-white/80 rounded-xl shadow-sm group-hover:shadow-lg transition-all duration-500 ease-out opacity-0 group-hover:opacity-100 -z-10"></div>
                                 
                                 <div className="h-14 w-32 flex items-center justify-center bg-transparent rounded-lg overflow-hidden group-hover:bg-transparent transition-all duration-500 ease-out">
@@ -197,15 +159,7 @@ export const BrandsCarousel = () => {
                                             alt={brand.marca}
                                             className="w-24 h-10 object-contain object-center filter grayscale-0 group-hover:grayscale-0 transition-all duration-500 ease-out opacity-80 group-hover:opacity-100"
                                             loading="lazy"
-                                            style={{
-                                                contentVisibility: 'auto',
-                                                maxWidth: '96px',
-                                                maxHeight: '32px',
-                                                minWidth: '96px',
-                                                minHeight: '32px'
-                                            }}
                                             onError={(e) => {
-                                                e.target.onerror = null;
                                                 e.target.style.display = 'none';
                                                 e.target.nextElementSibling.style.display = 'block';
                                             }}
@@ -213,15 +167,11 @@ export const BrandsCarousel = () => {
                                     ) : null}
                                     <span 
                                         className={`text-xs text-gray-500 text-center font-medium tracking-wide group-hover:text-gray-700 transition-colors duration-300 ${brand.marca_imagen ? 'hidden' : 'block'}`}
-                                        style={{
-                                            display: brand.marca_imagen ? 'none' : 'block'
-                                        }}
                                     >
                                         {brand.marca}
                                     </span>
                                 </div>
                                 
-                                {/* Indicador de interactividad */}
                                 <div className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-0 h-0.5 bg-gradient-to-r from-sky-200 to-sky-900 group-hover:w-8 transition-all duration-500 ease-out rounded-full"></div>
                             </button>
                         ))}
