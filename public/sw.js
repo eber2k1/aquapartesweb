@@ -85,3 +85,28 @@ self.addEventListener('activate', (event) => {
 self.addEventListener('fetch', () => {
   // Dejar que todas las peticiones pasen directamente al servidor
 });
+
+// Service Worker vacío que solo se auto-destruye
+console.log('SW: Iniciando auto-destrucción completa...');
+
+// Auto-destruirse inmediatamente
+self.addEventListener('install', () => {
+  self.skipWaiting();
+});
+
+self.addEventListener('activate', (event) => {
+  event.waitUntil(
+    Promise.all([
+      // Limpiar todas las caches
+      caches.keys().then(cacheNames => 
+        Promise.all(cacheNames.map(name => caches.delete(name)))
+      ),
+      // Tomar control
+      self.clients.claim(),
+      // Auto-desregistrarse
+      self.registration.unregister()
+    ]).then(() => {
+      console.log('SW: Completamente eliminado');
+    })
+  );
+});

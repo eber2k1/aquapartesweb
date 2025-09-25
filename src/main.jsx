@@ -3,31 +3,19 @@ import ReactDOM from 'react-dom/client';
 import App from './App.jsx';
 import { Analytics } from '@vercel/analytics/react';
 
-// Forzar limpieza del Service Worker problemático
+// DESACTIVAR Service Worker completamente
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', async () => {
     try {
-      // Desregistrar cualquier SW existente
+      // Desregistrar TODOS los Service Workers
       const registrations = await navigator.serviceWorker.getRegistrations();
       for (let registration of registrations) {
-        console.log('Desregistrando SW existente:', registration.scope);
+        console.log('Eliminando SW:', registration.scope);
         await registration.unregister();
       }
-      
-      // Registrar el nuevo SW de limpieza
-      const registration = await navigator.serviceWorker.register('/sw.js', {
-        updateViaCache: 'none' // No usar cache para el SW
-      });
-      
-      console.log('SW de limpieza registrado:', registration);
-      
-      // Forzar actualización si hay uno esperando
-      if (registration.waiting) {
-        registration.waiting.postMessage({ type: 'SKIP_WAITING' });
-      }
-      
+      console.log('Todos los Service Workers eliminados');
     } catch (error) {
-      console.log('Error manejando SW:', error);
+      console.log('Error eliminando SW:', error);
     }
   });
 }
