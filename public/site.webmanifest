@@ -8,17 +8,17 @@
   "theme_color": "#0ea5e9",
   "icons": [
     {
-      "src": "/aquapartes-icon.png",
+      "src": "/logov8_white_192.png",
       "sizes": "192x192",
       "type": "image/png"
     },
     {
-      "src": "/aquapartes-icon.png",
+      "src": "/logov8_white_192.png",
       "sizes": "512x512",
       "type": "image/png"
     },
     {
-      "src": "/aquapartes-icon.png",
+      "src": "/logov8_white_192.png",
       "sizes": "180x180",
       "type": "image/png",
       "purpose": "any maskable"

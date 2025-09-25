@@ -3,8 +3,7 @@ const urlsToCache = [
   '/',
   '/static/js/bundle.js',
   '/static/css/main.css',
-  '/logov8.png',
-  '/aquapartes-logo.png'
+  '/logov8.png'
 ];
 
 self.addEventListener('install', (event) => {
