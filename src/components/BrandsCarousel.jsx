@@ -1,14 +1,27 @@
 import { useEffect, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { brandsApi } from '../services/api';
-import { Link } from 'react-router-dom';
+import { useFilters } from '../hooks/useFilters';
 
 export const BrandsCarousel = () => {
     const [brands, setBrands] = useState([]);
     const [loading, setLoading] = useState(true);
     const carouselRef = useRef(null);
     const scrollInterval = useRef(null);
+    const navigate = useNavigate();
+    const { replaceFilters } = useFilters();
     const SCROLL_SPEED = 0.8; // Velocidad más suave
     const PAUSE_ON_HOVER = true;
+
+    const handleBrandClick = (brandName) => {
+        // Reemplazar completamente los filtros
+        replaceFilters({ 
+            brands: [brandName],
+            categories: [],
+            subcategories: []
+        });
+        navigate('/productos');
+    };
 
     useEffect(() => {
         const fetchBrands = async () => {
@@ -137,11 +150,12 @@ export const BrandsCarousel = () => {
                     
                     <div className="flex w-full items-center">
                         {brands.map((brand, index) => (
-                            <Link 
-                                to={`/marcas`} 
+                            <button
+                                onClick={() => handleBrandClick(brand.marca)}
                                 key={`${brand.id}-${index}`}
-                                className="group flex-shrink-0 mx-3 flex items-center justify-center transition-all duration-500 ease-out hover:scale-110 hover:-translate-y-1 relative"
+                                className="group flex-shrink-0 mx-3 flex items-center justify-center transition-all duration-500 ease-out hover:scale-110 hover:-translate-y-1 relative cursor-pointer"
                                 style={{ width: '120px', height: '50px' }}
+                                aria-label={`Ver productos de la marca ${brand.marca}`}
                             >
                                 {/* Efecto de sombra dinámica */}
                                 <div className="absolute inset-0 bg-white/80 rounded-xl shadow-sm group-hover:shadow-lg transition-all duration-500 ease-out opacity-0 group-hover:opacity-100 -z-10"></div>
@@ -179,7 +193,7 @@ export const BrandsCarousel = () => {
                                 
                                 {/* Indicador de interactividad */}
                                 <div className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-0 h-0.5 bg-gradient-to-r from-sky-200 to-sky-900 group-hover:w-8 transition-all duration-500 ease-out rounded-full"></div>
-                            </Link>
+                            </button>
                         ))}
                     </div>
                 </div>
