@@ -6,22 +6,37 @@ const urlsToCache = [
   '/logov8.png'
 ];
 
-self.addEventListener('install', (event) => {
+// Service Worker que se auto-destruye para limpiar el cache problemático
+self.addEventListener('install', () => {
+  console.log('SW: Instalando nuevo service worker para limpiar cache...');
+  self.skipWaiting();
+});
+
+self.addEventListener('activate', (event) => {
+  console.log('SW: Activando y limpiando todas las caches...');
   event.waitUntil(
-    caches.open(CACHE_NAME)
-      .then((cache) => cache.addAll(urlsToCache))
+    Promise.all([
+      // Limpiar todas las caches existentes
+      caches.keys().then((cacheNames) => {
+        return Promise.all(
+          cacheNames.map((cacheName) => {
+            console.log('SW: Eliminando cache:', cacheName);
+            return caches.delete(cacheName);
+          })
+        );
+      }),
+      // Tomar control inmediatamente
+      self.clients.claim(),
+      // Auto-desregistrarse después de limpiar
+      self.registration.unregister().then(() => {
+        console.log('SW: Service Worker desregistrado exitosamente');
+      })
+    ])
   );
 });
 
-self.addEventListener('fetch', (event) => {
-  event.respondWith(
-    caches.match(event.request)
-      .then((response) => {
-        if (response) {
-          return response;
-        }
-        return fetch(event.request);
-      }
-    )
-  );
+// No interceptar ninguna petición - dejar que pasen directamente al servidor
+self.addEventListener('fetch', () => {
+  // No hacer nada - dejar que todas las peticiones pasen al servidor
+  return;
 });
