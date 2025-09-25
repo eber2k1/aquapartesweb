@@ -3,7 +3,6 @@ import Header from './Header';
 import Footer from './Footer';
 import Breadcrumb from './Breadcrumb';
 import WhatsAppFloat from './WhatsAppFloat';
-import InstallPWA from './InstallPWA';
 
 export const Layout = ({ children }) => {
   const location = useLocation();
@@ -24,7 +23,6 @@ export const Layout = ({ children }) => {
       </main>
       <Footer />
       <WhatsAppFloat />
-      <InstallPWA />
     </div>
   );
 };
