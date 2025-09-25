@@ -6,32 +6,45 @@ import { useFilters } from '../hooks/useFilters';
 export const BrandsCarousel = () => {
     const [brands, setBrands] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
     const carouselRef = useRef(null);
     const scrollInterval = useRef(null);
+    
+    // Los hooks SIEMPRE deben llamarse en el mismo orden
     const navigate = useNavigate();
     const { replaceFilters } = useFilters();
-    const SCROLL_SPEED = 0.8; // Velocidad más suave
+    
+    const SCROLL_SPEED = 0.8;
     const PAUSE_ON_HOVER = true;
 
     const handleBrandClick = (brandName) => {
-        // Reemplazar completamente los filtros
-        replaceFilters({ 
-            brands: [brandName],
-            categories: [],
-            subcategories: []
-        });
-        navigate('/productos');
+        try {
+            replaceFilters({ 
+                brands: [brandName],
+                categories: [],
+                subcategories: []
+            });
+            navigate('/productos');
+        } catch (error) {
+            console.error('Error navigating to products:', error);
+        }
     };
 
     useEffect(() => {
         const fetchBrands = async () => {
             try {
+                setError(null);
                 const data = await brandsApi.getBrands();
+                
+                // Validar que data existe y es un array
+                if (!Array.isArray(data)) {
+                    throw new Error('Invalid data format received from API');
+                }
                 
                 // Agrupar marcas por nombre y combinar categorías
                 const groupedBrands = data.reduce((acc, brand) => {
                     // Validar que brand.marca existe y no es null/undefined
-                    if (!brand.marca) return acc;
+                    if (!brand || !brand.marca) return acc;
                     
                     const existingBrand = acc.find(b => 
                         b.marca && b.marca.toLowerCase() === brand.marca.toLowerCase()
@@ -56,10 +69,16 @@ export const BrandsCarousel = () => {
                     }];
                 }, []);
                 
-                // Duplicar para el efecto de desplazamiento infinito
-                setBrands([...groupedBrands, ...groupedBrands, ...groupedBrands]);
+                // Solo duplicar si tenemos marcas válidas
+                if (groupedBrands.length > 0) {
+                    setBrands([...groupedBrands, ...groupedBrands, ...groupedBrands]);
+                } else {
+                    setBrands([]);
+                }
             } catch (error) {
                 console.error('Error fetching brands:', error);
+                setError(error.message || 'Error loading brands');
+                setBrands([]); // Asegurar que brands sea un array vacío
             } finally {
                 setLoading(false);
             }
@@ -121,6 +140,17 @@ export const BrandsCarousel = () => {
             document.removeEventListener('visibilitychange', handleVisibilityChange);
         };
     }, [loading, PAUSE_ON_HOVER]);
+
+    // Si hay error o no hay marcas, renderizar un componente simple que no rompa la página
+    if (error || (!loading && brands.length === 0)) {
+        return (
+            <section className="bg-sky-700/10 backdrop-blur-sm py-2 mt-0.5 w-full overflow-hidden border-t-20 border-b-6 border-white">
+                <div className="text-center text-gray-500 text-sm py-4">
+                    {error ? 'Error cargando marcas' : 'No hay marcas disponibles'}
+                </div>
+            </section>
+        );
+    }
 
     if (loading) {
         return (
