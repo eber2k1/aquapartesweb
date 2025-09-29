@@ -132,8 +132,8 @@ const InstallPWA = ({ inline = false, mobile = false }) => {
 
       {/* Modal con instrucciones específicas */}
       {showIOSInstructions && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-lg p-6 max-w-sm mx-auto">
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-end sm:items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-lg p-6 max-w-sm mx-auto w-full sm:w-auto mb-4 sm:mb-0">
             <h3 className="text-lg font-semibold mb-4">Instalar AquaPartes</h3>
             
             {isIOSChrome ? (
