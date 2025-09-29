@@ -132,14 +132,14 @@ const InstallPWA = ({ inline = false, mobile = false }) => {
 
       {/* Modal con instrucciones específicas */}
       {showIOSInstructions && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-end justify-center z-50 p-4">
-          <div className="bg-white rounded-t-lg p-6 max-w-sm mx-auto w-full sm:w-auto sm:rounded-lg sm:mb-8">
-            <h3 className="text-lg font-semibold mb-4">Instalar AquaPartes</h3>
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-end justify-center z-50 p-0">
+          <div className="bg-white rounded-t-xl p-6 max-w-sm mx-auto w-full animate-slide-up">
+            <h3 className="text-lg font-semibold mb-4 text-center">Instalar AquaPartes</h3>
             
             {isIOSChrome ? (
               <div className="space-y-3 text-sm">
-                <p className="text-orange-600 font-medium">⚠️ Estás usando Chrome en iOS</p>
-                <div className="space-y-2">
+                <p className="text-orange-600 font-medium text-center">⚠️ Estás usando Chrome en iOS</p>
+                <div className="space-y-3">
                   <div className="flex items-center gap-3">
                     <span className="text-2xl">🔄</span>
                     <span>Abre esta página en <strong>Safari</strong></span>
@@ -173,7 +173,7 @@ const InstallPWA = ({ inline = false, mobile = false }) => {
             
             <button
               onClick={() => setShowIOSInstructions(false)}
-              className="mt-4 w-full bg-cyan-400 hover:bg-cyan-500 text-white py-2 rounded-lg transition-colors"
+              className="mt-6 w-full bg-cyan-400 hover:bg-cyan-500 text-white py-3 rounded-lg transition-colors font-medium"
             >
               Entendido
             </button>
