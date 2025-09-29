@@ -132,40 +132,43 @@ const InstallPWA = ({ inline = false, mobile = false }) => {
 
       {/* Modal con instrucciones específicas */}
       {showIOSInstructions && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-end justify-center z-50 p-0">
-          <div className="bg-white rounded-t-xl p-6 max-w-sm mx-auto w-full animate-slide-up">
-            <h3 className="text-lg font-semibold mb-4 text-center">Instalar AquaPartes</h3>
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-end justify-center z-50">
+          <div className="bg-white rounded-t-xl p-6 w-full max-w-sm mx-4 mb-0 shadow-2xl">
+            {/* Indicador visual para arrastrar */}
+            <div className="w-12 h-1 bg-gray-300 rounded-full mx-auto mb-4"></div>
+            
+            <h3 className="text-lg font-semibold mb-4 text-center text-gray-800">Instalar AquaPartes</h3>
             
             {isIOSChrome ? (
-              <div className="space-y-3 text-sm">
+              <div className="space-y-4 text-sm">
                 <p className="text-orange-600 font-medium text-center">⚠️ Estás usando Chrome en iOS</p>
                 <div className="space-y-3">
-                  <div className="flex items-center gap-3">
-                    <span className="text-2xl">🔄</span>
+                  <div className="flex items-start gap-3 p-3 bg-gray-50 rounded-lg">
+                    <span className="text-2xl flex-shrink-0">🔄</span>
                     <span>Abre esta página en <strong>Safari</strong></span>
                   </div>
-                  <div className="flex items-center gap-3">
-                    <span className="text-2xl">📱</span>
+                  <div className="flex items-start gap-3 p-3 bg-gray-50 rounded-lg">
+                    <span className="text-2xl flex-shrink-0">📱</span>
                     <span>Toca "Compartir" en Safari</span>
                   </div>
-                  <div className="flex items-center gap-3">
-                    <span className="text-2xl">➕</span>
+                  <div className="flex items-start gap-3 p-3 bg-gray-50 rounded-lg">
+                    <span className="text-2xl flex-shrink-0">➕</span>
                     <span>Selecciona "Agregar a pantalla de inicio"</span>
                   </div>
                 </div>
               </div>
             ) : (
-              <div className="space-y-3 text-sm">
-                <div className="flex items-center gap-3">
-                  <span className="text-2xl">📱</span>
+              <div className="space-y-4 text-sm">
+                <div className="flex items-start gap-3 p-3 bg-gray-50 rounded-lg">
+                  <span className="text-2xl flex-shrink-0">📱</span>
                   <span>Toca el botón "Compartir" en Safari</span>
                 </div>
-                <div className="flex items-center gap-3">
-                  <span className="text-2xl">➕</span>
+                <div className="flex items-start gap-3 p-3 bg-gray-50 rounded-lg">
+                  <span className="text-2xl flex-shrink-0">➕</span>
                   <span>Selecciona "Agregar a pantalla de inicio"</span>
                 </div>
-                <div className="flex items-center gap-3">
-                  <span className="text-2xl">✅</span>
+                <div className="flex items-start gap-3 p-3 bg-gray-50 rounded-lg">
+                  <span className="text-2xl flex-shrink-0">✅</span>
                   <span>Confirma tocando "Agregar"</span>
                 </div>
               </div>
@@ -173,10 +176,13 @@ const InstallPWA = ({ inline = false, mobile = false }) => {
             
             <button
               onClick={() => setShowIOSInstructions(false)}
-              className="mt-6 w-full bg-cyan-400 hover:bg-cyan-500 text-white py-3 rounded-lg transition-colors font-medium"
+              className="mt-6 w-full bg-cyan-400 hover:bg-cyan-500 text-white py-4 rounded-xl transition-colors font-medium text-lg shadow-lg"
             >
               Entendido
             </button>
+            
+            {/* Espacio adicional para el área segura del iPhone */}
+            <div className="h-4"></div>
           </div>
         </div>
       )}
