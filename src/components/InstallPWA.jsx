@@ -7,6 +7,7 @@ const InstallPWA = ({ inline = false, mobile = false }) => {
   const [isIOSChrome, setIsIOSChrome] = useState(false);
   const [showIOSInstructions, setShowIOSInstructions] = useState(false);
   const [showInstalledMessage, setShowInstalledMessage] = useState(false);
+  const [modalContext, setModalContext] = useState(''); // 'inline', 'mobile', o ''
 
   useEffect(() => {
     // Detectar iOS
@@ -62,6 +63,8 @@ const InstallPWA = ({ inline = false, mobile = false }) => {
 
   const handleInstallClick = async () => {
     if (isIOS) {
+      // Establecer el contexto del modal según el tipo de botón
+      setModalContext(mobile ? 'mobile' : 'inline');
       setShowIOSInstructions(true);
       return;
     }
@@ -132,10 +135,18 @@ const InstallPWA = ({ inline = false, mobile = false }) => {
 
       {/* Modal con instrucciones específicas */}
       {showIOSInstructions && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-end justify-center z-50">
-          <div className="bg-white rounded-t-xl p-6 w-full max-w-sm mx-4 mb-0 shadow-2xl">
-            {/* Indicador visual para arrastrar */}
-            <div className="w-12 h-1 bg-gray-300 rounded-full mx-auto mb-4"></div>
+        <div className={`fixed inset-0 bg-black/30 backdrop-blur-sm flex z-50 ${
+          modalContext === 'mobile' ? 'items-end justify-center' : 'items-center justify-center'
+        }`}>
+          <div className={`bg-white shadow-2xl ${
+            modalContext === 'mobile' 
+              ? 'rounded-t-xl p-6 w-full max-w-sm animate-slide-up' 
+              : 'rounded-xl p-6 w-full max-w-sm mx-4'
+          }`}>
+            {/* Indicador visual para arrastrar - solo en mobile */}
+            {modalContext === 'mobile' && (
+              <div className="w-12 h-1 bg-gray-300 rounded-full mx-auto mb-4"></div>
+            )}
             
             <h3 className="text-lg font-semibold mb-4 text-center text-gray-800">Instalar AquaPartes</h3>
             
@@ -175,14 +186,19 @@ const InstallPWA = ({ inline = false, mobile = false }) => {
             )}
             
             <button
-              onClick={() => setShowIOSInstructions(false)}
+              onClick={() => {
+                setShowIOSInstructions(false);
+                setModalContext('');
+              }}
               className="mt-6 w-full bg-cyan-400 hover:bg-cyan-500 text-white py-4 rounded-xl transition-colors font-medium text-lg shadow-lg"
             >
               Entendido
             </button>
             
-            {/* Espacio adicional para el área segura del iPhone */}
-            <div className="h-4"></div>
+            {/* Espacio adicional para el área segura del iPhone - solo en mobile */}
+            {modalContext === 'mobile' && (
+              <div className="h-4"></div>
+            )}
           </div>
         </div>
       )}
