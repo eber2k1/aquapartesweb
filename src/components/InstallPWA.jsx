@@ -136,17 +136,15 @@ const InstallPWA = ({ inline = false, mobile = false }) => {
       {/* Modal con instrucciones específicas */}
       {showIOSInstructions && (
         <div className={`fixed inset-0 bg-black/30 backdrop-blur-sm flex z-50 ${
-          modalContext === 'mobile' ? 'items-end justify-center' : 'items-center justify-center'
+          modalContext === 'mobile' ? 'items-end justify-center' : 'items-end justify-center pt-20'
         }`}>
           <div className={`bg-white shadow-2xl ${
             modalContext === 'mobile' 
               ? 'rounded-t-xl p-6 w-full max-w-sm animate-slide-up' 
-              : 'rounded-xl p-6 w-full max-w-sm mx-4'
+              : 'rounded-t-xl p-6 w-full max-w-sm mx-4 mb-16 animate-slide-up'
           }`}>
-            {/* Indicador visual para arrastrar - solo en mobile */}
-            {modalContext === 'mobile' && (
-              <div className="w-12 h-1 bg-gray-300 rounded-full mx-auto mb-4"></div>
-            )}
+            {/* Indicador visual para arrastrar - para ambos contextos */}
+            <div className="w-12 h-1 bg-gray-300 rounded-full mx-auto mb-4"></div>
             
             <h3 className="text-lg font-semibold mb-4 text-center text-gray-800">Instalar AquaPartes</h3>
             
@@ -195,10 +193,8 @@ const InstallPWA = ({ inline = false, mobile = false }) => {
               Entendido
             </button>
             
-            {/* Espacio adicional para el área segura del iPhone - solo en mobile */}
-            {modalContext === 'mobile' && (
-              <div className="h-4"></div>
-            )}
+            {/* Espacio adicional para el área segura del iPhone */}
+            <div className="h-4"></div>
           </div>
         </div>
       )}
