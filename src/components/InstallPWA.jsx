@@ -136,12 +136,12 @@ const InstallPWA = ({ inline = false, mobile = false }) => {
       {/* Modal con instrucciones específicas */}
       {showIOSInstructions && (
         <div className={`fixed inset-0 bg-black/30 backdrop-blur-sm flex z-50 ${
-          modalContext === 'mobile' ? 'items-end justify-center' : 'items-end justify-center pt-20'
+          modalContext === 'mobile' ? 'items-end justify-center' : 'items-end justify-center'
         }`}>
           <div className={`bg-white shadow-2xl ${
             modalContext === 'mobile' 
               ? 'rounded-t-xl p-6 w-full max-w-sm animate-slide-up' 
-              : 'rounded-t-xl p-6 w-full max-w-sm mx-4 mb-16 animate-slide-up'
+              : 'rounded-t-xl p-6 w-full max-w-sm mx-4 mb-4 animate-slide-up'
           }`}>
             {/* Indicador visual para arrastrar - para ambos contextos */}
             <div className="w-12 h-1 bg-gray-300 rounded-full mx-auto mb-4"></div>
