@@ -2,59 +2,19 @@ import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { DropdownCategories } from "./DropdownCategories";
 import CartIcon from "./CartIcon";
+import InstallPWA from "./InstallPWA";
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
   const [showCategories, setShowCategories] = useState(false);
   const [prevScrollPos, setPrevScrollPos] = useState(0);
-  const [deferredPrompt, setDeferredPrompt] = useState(null);
-  const [showInstallButton, setShowInstallButton] = useState(false);
   const headerRef = useRef(null);
   const menuRef = useRef(null);
   const categoriesRef = useRef(null);
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
-  };
-
-  // PWA Install Logic
-  useEffect(() => {
-    const handleBeforeInstallPrompt = (e) => {
-      e.preventDefault();
-      setDeferredPrompt(e);
-      setShowInstallButton(true);
-    };
-
-    const handleAppInstalled = () => {
-      console.log('PWA fue instalada');
-      setShowInstallButton(false);
-      setDeferredPrompt(null);
-    };
-
-    window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
-    window.addEventListener('appinstalled', handleAppInstalled);
-
-    return () => {
-      window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
-      window.removeEventListener('appinstalled', handleAppInstalled);
-    };
-  }, []);
-
-  const handleInstallClick = async () => {
-    if (!deferredPrompt) return;
-
-    deferredPrompt.prompt();
-    const { outcome } = await deferredPrompt.userChoice;
-    
-    if (outcome === 'accepted') {
-      console.log('Usuario aceptó la instalación');
-    } else {
-      console.log('Usuario rechazó la instalación');
-    }
-
-    setDeferredPrompt(null);
-    setShowInstallButton(false);
   };
 
   // Cerrar menú al hacer clic fuera de él
@@ -204,20 +164,8 @@ export default function Header() {
               <div className="absolute bottom-0 left-1/2 w-0 h-0.5 bg-cyan-300 transition-all duration-300 group-hover:w-full group-hover:left-0"></div>
             </Link>
             
-            {/* PWA Install Button - Desktop */}
-            {showInstallButton && (
-              <button
-                onClick={handleInstallClick}
-                className="px-3 py-2 bg-cyan-500 hover:bg-cyan-600 text-white font-medium text-sm tracking-wide transition-all duration-200 rounded-lg flex items-center gap-2 shadow-lg hover:shadow-xl"
-                title="Instalar AquaPartes como aplicación"
-              >
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                </svg>
-                <span className="hidden xl:inline">Instalar AquaPartes</span>
-                <span className="xl:hidden">Instalar</span>
-              </button>
-            )}
+            {/* PWA Install Button integrado en el header */}
+            <InstallPWA inline={true} />
             
             {/* Desktop Cart - Mejorado */}
             <div className="ml-6 pl-6 border-l border-white/20">
@@ -229,21 +177,15 @@ export default function Header() {
 
           {/* Mobile Menu Button & Cart - Mejorado */}
           <div className="lg:hidden flex items-center space-x-3 pr-4 sm:pr-0">
-            {/* PWA Install Button - Mobile */}
-            {showInstallButton && (
-              <button
-                onClick={handleInstallClick}
-                className="p-2 bg-cyan-500 hover:bg-cyan-600 text-white transition-all duration-200 rounded-lg shadow-lg"
-                title="Instalar AquaPartes como aplicación"
-              >
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                </svg>
-              </button>
-            )}
             <div className="p-2 hover:bg-white/10 rounded-lg transition-all duration-200">
               <CartIcon />
             </div>
+            
+            {/* PWA Install Button para header móvil */}
+            <div className="p-1">
+              <InstallPWA inline={true} />
+            </div>
+            
             <button
               className="p-2 text-white/90 hover:text-white hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-white/20 transition-all duration-200 rounded-lg backdrop-blur-sm"
               onClick={toggleMenu}
@@ -296,22 +238,6 @@ export default function Header() {
             {/* Navigation Links mejorados */}
             <div className="py-4 flex-1">
               <div className="space-y-1 px-4">
-                {/* PWA Install Button - Mobile Menu */}
-                {showInstallButton && (
-                  <button
-                    onClick={() => {
-                      handleInstallClick();
-                      setIsOpen(false);
-                    }}
-                    className="w-full flex items-center px-4 py-3 text-white bg-cyan-600 hover:bg-cyan-700 font-medium transition-all duration-200 rounded-lg mb-2"
-                  >
-                    <svg className="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                    </svg>
-                    Instalar AquaPartes
-                  </button>
-                )}
-
                 <Link
                   to="/"
                   className="block px-4 py-3 text-gray-200 hover:text-white hover:bg-sky-800/50 font-medium transition-all duration-200 rounded-lg border-l-4 border-transparent hover:border-cyan-400"
@@ -402,6 +328,9 @@ export default function Header() {
                     Contáctanos
                   </span>
                 </Link>
+
+                {/* PWA Install Button para móvil */}
+                <InstallPWA mobile={true} />
               </div>
             </div>
           </div>
