@@ -3,6 +3,7 @@ import Header from './Header';
 import Footer from './Footer';
 import Breadcrumb from './Breadcrumb';
 import WhatsAppFloat from './WhatsAppFloat';
+import FacebookFloat from './FacebookFloat';
 
 export const Layout = ({ children }) => {
   const location = useLocation();
@@ -22,6 +23,8 @@ export const Layout = ({ children }) => {
         {children}
       </main>
       <Footer />
+      {/* Botón flotante de Facebook */}
+      <FacebookFloat />
       <WhatsAppFloat />
     </div>
   );
