@@ -35,7 +35,7 @@ export default function Footer() {
   }, []);
 
   const socialLinks = [
-    { href: "https://www.facebook.com/aquapartes", icon: <FaFacebookF />, label: "Facebook" },
+    { href: "https://www.facebook.com/Aquapartessac", icon: <FaFacebookF />, label: "Facebook" },
     { href: "https://www.instagram.com/aquapartes", icon: <FaInstagram />, label: "Instagram" },
     { href: "https://www.linkedin.com/company/aquapartes", icon: <FaLinkedinIn />, label: "LinkedIn" },
     { href: "https://www.tiktok.com/@aquapartes", icon: <FaTiktok />, label: "TikTok" },
