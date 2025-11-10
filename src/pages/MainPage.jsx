@@ -4,6 +4,8 @@ import { DescripcionAquapartes } from "../components/DescripcionAquapartes";
 import { BrandsCarousel } from "../components/BrandsCarousel";
 import { CategoriesGrid } from "../components/CategoriesGrid";
 import PageLoader from '../components/PageLoader';
+// MainPage component
+import { PresencialPayments } from '../components/PresencialPayments';
 
 export const MainPage = () => {
     const [isLoading, setIsLoading] = useState(true);
@@ -33,6 +35,7 @@ export const MainPage = () => {
             <div className="space-y-18 ">
                 <DescripcionAquapartes />
                 <CategoriesGrid />
+                <PresencialPayments />
             </div>
         </div>
     );
