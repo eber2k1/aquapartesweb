@@ -6,9 +6,11 @@ import { CategoriesGrid } from "../components/CategoriesGrid";
 import PageLoader from '../components/PageLoader';
 // MainPage component
 import { PresencialPayments } from '../components/PresencialPayments';
+import { SplashAdModal } from '../components/SplashAdModal';
 
 export const MainPage = () => {
     const [isLoading, setIsLoading] = useState(true);
+    const [isSplashOpen, setIsSplashOpen] = useState(false);
 
     useEffect(() => {
         const timer = setTimeout(() => {
@@ -16,6 +18,13 @@ export const MainPage = () => {
         }, 1000);
         return () => clearTimeout(timer);
     }, []);
+
+    // Abrir el modal cuando termina la carga inicial
+    useEffect(() => {
+        if (!isLoading) {
+            setIsSplashOpen(true);
+        }
+    }, [isLoading]);
 
     if (isLoading) {
         return <PageLoader message="Cargando página principal..." />;
@@ -29,14 +38,27 @@ export const MainPage = () => {
     ];
 
     return (
-        <div>
-            <BrandsCarousel />
-            <Banner images={bannerImages} interval={5000} />
-            <div className="space-y-18 ">
-                <DescripcionAquapartes />
-                <CategoriesGrid />
-                <PresencialPayments />
+        <>
+            <SplashAdModal
+                isOpen={isSplashOpen}
+                onClose={() => setIsSplashOpen(false)}
+                images={[
+                    '/adds/oferta01.jpeg',
+                    '/adds/oferta02.jpeg',
+                    '/adds/oferta03.jpeg'
+                ]}
+                intervalMs={10000}
+                autoRotate={true}
+            />
+            <div>
+                <BrandsCarousel />
+                <Banner images={bannerImages} interval={10000} />
+                <div className="space-y-18 ">
+                    <DescripcionAquapartes />
+                    <CategoriesGrid />
+                    <PresencialPayments />
+                </div>
             </div>
-        </div>
+        </>
     );
 };
