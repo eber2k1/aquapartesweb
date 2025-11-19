@@ -43,9 +43,9 @@ export const MainPage = () => {
                 isOpen={isSplashOpen}
                 onClose={() => setIsSplashOpen(false)}
                 images={[
-                    '/adds/oferta01.jpeg',
                     '/adds/oferta02.jpeg',
-                    '/adds/oferta03.jpeg'
+                    '/adds/oferta03.jpeg',
+                    '/adds/oferta01.jpeg'
                 ]}
                 intervalMs={10000}
                 autoRotate={true}
