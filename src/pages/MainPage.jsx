@@ -43,6 +43,7 @@ export const MainPage = () => {
                 isOpen={isSplashOpen}
                 onClose={() => setIsSplashOpen(false)}
                 images={[
+                    '/adds/Add-NewYear.jpeg',
                     '/adds/oferta02.jpeg',
                     '/adds/oferta03.jpeg',
                     '/adds/oferta01.jpeg'
