@@ -39,7 +39,7 @@ export const MainPage = () => {
 
     return (
         <>
-            <SplashAdModal
+            {/* <SplashAdModal
                 isOpen={isSplashOpen}
                 onClose={() => setIsSplashOpen(false)}
                 images={[
@@ -47,7 +47,7 @@ export const MainPage = () => {
                 ]}
                 intervalMs={10000}
                 autoRotate={true}
-            />
+            /> */}
             <div>
                 <BrandsCarousel />
                 <Banner images={bannerImages} interval={10000} />
