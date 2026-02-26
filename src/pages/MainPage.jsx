@@ -7,6 +7,7 @@ import PageLoader from '../components/PageLoader';
 // MainPage component
 import { PresencialPayments } from '../components/PresencialPayments';
 import { SplashAdModal } from '../components/SplashAdModal';
+import { InstallModal } from '../components/InstallModal';
 
 export const MainPage = () => {
     const [isLoading, setIsLoading] = useState(true);
@@ -39,6 +40,7 @@ export const MainPage = () => {
 
     return (
         <>
+            <InstallModal />
             {/* <SplashAdModal
                 isOpen={isSplashOpen}
                 onClose={() => setIsSplashOpen(false)}
