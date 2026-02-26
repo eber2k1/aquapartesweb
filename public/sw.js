@@ -1,112 +1,74 @@
-const CACHE_NAME = 'aquapartes-v1';
+const CACHE_NAME = 'aquapartes-v3';
 const urlsToCache = [
   '/',
-  '/static/js/bundle.js',
-  '/static/css/main.css',
-  '/logov8.png'
+  '/index.html',
+  '/logov8.png',
+  '/manifest.json'
 ];
 
-// Service Worker que se auto-destruye para limpiar el cache problemático
-self.addEventListener('install', () => {
-  console.log('SW: Instalando nuevo service worker para limpiar cache...');
-  self.skipWaiting();
-});
-
-self.addEventListener('activate', (event) => {
-  console.log('SW: Activando y limpiando todas las caches...');
-  event.waitUntil(
-    Promise.all([
-      // Limpiar todas las caches existentes
-      caches.keys().then((cacheNames) => {
-        return Promise.all(
-          cacheNames.map((cacheName) => {
-            console.log('SW: Eliminando cache:', cacheName);
-            return caches.delete(cacheName);
-          })
-        );
-      }),
-      // Tomar control inmediatamente
-      self.clients.claim(),
-      // Auto-desregistrarse después de limpiar
-      self.registration.unregister().then(() => {
-        console.log('SW: Service Worker desregistrado exitosamente');
-      })
-    ])
-  );
-});
-
-// No interceptar ninguna petición - dejar que pasen directamente al servidor
-self.addEventListener('fetch', () => {
-  // No hacer nada - dejar que todas las peticiones pasen al servidor
-  return;
-});
-
-// Service Worker agresivo para limpiar cache problemático
-const CLEANUP_VERSION = 'cleanup-v2';
-
+// Instalación del Service Worker
 self.addEventListener('install', (event) => {
-  console.log('SW: Forzando instalación inmediata...');
-  // Forzar activación inmediata sin esperar
-  event.waitUntil(self.skipWaiting());
-});
-
-self.addEventListener('activate', (event) => {
-  console.log('SW: Limpieza agresiva iniciada...');
+  console.log('SW: Instalando...');
   event.waitUntil(
-    Promise.all([
-      // Limpiar TODAS las caches sin excepción
-      caches.keys().then((cacheNames) => {
-        console.log('SW: Caches encontradas:', cacheNames);
-        return Promise.all(
-          cacheNames.map((cacheName) => {
-            console.log('SW: Eliminando cache:', cacheName);
-            return caches.delete(cacheName);
-          })
-        );
-      }),
-      // Tomar control de todas las pestañas inmediatamente
-      self.clients.claim(),
-      // Recargar todas las pestañas abiertas
-      self.clients.matchAll().then((clients) => {
-        clients.forEach((client) => {
-          console.log('SW: Recargando cliente:', client.url);
-          client.navigate(client.url);
-        });
+    caches.open(CACHE_NAME)
+      .then((cache) => {
+        console.log('SW: Cache abierto');
+        return cache.addAll(urlsToCache);
       })
-    ]).then(() => {
-      console.log('SW: Limpieza completada, auto-desregistrando...');
-      // Auto-desregistrarse después de limpiar
-      return self.registration.unregister();
-    })
+      .then(() => self.skipWaiting())
   );
 });
 
-// NO interceptar ninguna petición
-self.addEventListener('fetch', () => {
-  // Dejar que todas las peticiones pasen directamente al servidor
-});
-
-// Service Worker vacío que solo se auto-destruye
-console.log('SW: Iniciando auto-destrucción completa...');
-
-// Auto-destruirse inmediatamente
-self.addEventListener('install', () => {
-  self.skipWaiting();
-});
-
+// Activación y limpieza de caches antiguos
 self.addEventListener('activate', (event) => {
+  console.log('SW: Activando...');
+  const cacheWhitelist = [CACHE_NAME];
   event.waitUntil(
-    Promise.all([
-      // Limpiar todas las caches
-      caches.keys().then(cacheNames => 
-        Promise.all(cacheNames.map(name => caches.delete(name)))
-      ),
-      // Tomar control
-      self.clients.claim(),
-      // Auto-desregistrarse
-      self.registration.unregister()
-    ]).then(() => {
-      console.log('SW: Completamente eliminado');
-    })
+    caches.keys().then((cacheNames) => {
+      return Promise.all(
+        cacheNames.map((cacheName) => {
+          if (cacheWhitelist.indexOf(cacheName) === -1) {
+            console.log('SW: Eliminando cache antiguo:', cacheName);
+            return caches.delete(cacheName);
+          }
+        })
+      );
+    }).then(() => self.clients.claim())
+  );
+});
+
+// Estrategia de Cache: Network First (Red primero, luego cache)
+// Esta estrategia es más segura para evitar servir contenido obsoleto
+self.addEventListener('fetch', (event) => {
+  // Solo interceptar peticiones GET
+  if (event.request.method !== 'GET') return;
+
+  // Ignorar peticiones de chrome-extension, etc.
+  if (!event.request.url.startsWith('http')) return;
+
+  event.respondWith(
+    fetch(event.request)
+      .then((response) => {
+        // Si la respuesta es válida, la clonamos y actualizamos el cache
+        if (!response || response.status !== 200 || response.type !== 'basic') {
+          return response;
+        }
+
+        const responseToCache = response.clone();
+        caches.open(CACHE_NAME)
+          .then((cache) => {
+            // No cachear POST o peticiones con query params dinámicos agresivamente
+            // pero para una PWA simple, cachear recursos estáticos está bien.
+            // Aquí usamos un enfoque simple.
+            cache.put(event.request, responseToCache);
+          });
+
+        return response;
+      })
+      .catch(() => {
+        // Si falla la red, intentamos servir desde cache
+        console.log('SW: Red falló, buscando en cache:', event.request.url);
+        return caches.match(event.request);
+      })
   );
 });

@@ -3,20 +3,16 @@ import ReactDOM from 'react-dom/client';
 import App from './App.jsx';
 import { Analytics } from '@vercel/analytics/react';
 
-// DESACTIVAR Service Worker completamente
+// ACTIVAR Service Worker para PWA
 if ('serviceWorker' in navigator) {
-  window.addEventListener('load', async () => {
-    try {
-      // Desregistrar TODOS los Service Workers
-      const registrations = await navigator.serviceWorker.getRegistrations();
-      for (let registration of registrations) {
-        console.log('Eliminando SW:', registration.scope);
-        await registration.unregister();
-      }
-      console.log('Todos los Service Workers eliminados');
-    } catch (error) {
-      console.log('Error eliminando SW:', error);
-    }
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js')
+      .then((registration) => {
+        console.log('SW registrado con éxito:', registration.scope);
+      })
+      .catch((error) => {
+        console.log('Fallo al registrar SW:', error);
+      });
   });
 }
 

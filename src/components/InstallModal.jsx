@@ -8,6 +8,7 @@ export const InstallModal = () => {
   const [isIOS, setIsIOS] = useState(false);
   const [isIOSChrome, setIsIOSChrome] = useState(false);
   const [isStandalone, setIsStandalone] = useState(false);
+  const [showManualInstructions, setShowManualInstructions] = useState(false);
 
   useEffect(() => {
     // Detectar dispositivo y modo
@@ -23,14 +24,25 @@ export const InstallModal = () => {
     const handleBeforeInstallPrompt = (e) => {
       e.preventDefault();
       setDeferredPrompt(e);
+      // Si recibimos el evento, ocultamos las instrucciones manuales si estaban visibles
+      setShowManualInstructions(false);
     };
 
     window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
 
+    // Si después de 3 segundos no hemos recibido el evento y no es iOS,
+    // mostramos instrucciones manuales o cambiamos el estado
+    const timer = setTimeout(() => {
+      if (!deferredPrompt && !isIOSDevice && !isInStandaloneMode) {
+        setShowManualInstructions(true);
+      }
+    }, 3000);
+
     return () => {
       window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+      clearTimeout(timer);
     };
-  }, []);
+  }, [deferredPrompt]); // Añadimos deferredPrompt como dependencia para limpiar el timer si llega el evento
 
   const handleInstall = async () => {
     if (deferredPrompt) {
@@ -76,16 +88,28 @@ export const InstallModal = () => {
           Instala nuestra aplicación para una experiencia más rápida y acceso directo desde tu pantalla de inicio.
         </p>
 
-        {isIOS ? (
+        {isIOS || showManualInstructions ? (
           <div className="text-left bg-gray-50 p-4 rounded-xl mb-4 border border-gray-100">
-            <p className="font-semibold mb-3 text-gray-700 text-sm">Para instalar en iOS:</p>
+            <p className="font-semibold mb-3 text-gray-700 text-sm">
+              {isIOS ? 'Para instalar en iOS:' : 'Para instalar en Android / Chrome:'}
+            </p>
             <div className="flex items-center gap-3 mb-3 text-gray-600 text-sm">
               <span className="flex-shrink-0 w-6 h-6 bg-white rounded-full flex items-center justify-center border border-gray-200 font-bold text-xs text-cyan-600 shadow-sm">1</span>
-              <span>Toca el botón <strong>Compartir</strong> <span className="text-lg align-middle">⎋</span></span>
+              <span>
+                {isIOS 
+                  ? <>Toca el botón <strong>Compartir</strong> <span className="text-lg align-middle">⎋</span></>
+                  : <>Toca el menú del navegador <span className="text-lg align-middle">⋮</span></>
+                }
+              </span>
             </div>
             <div className="flex items-center gap-3 text-gray-600 text-sm">
               <span className="flex-shrink-0 w-6 h-6 bg-white rounded-full flex items-center justify-center border border-gray-200 font-bold text-xs text-cyan-600 shadow-sm">2</span>
-              <span>Selecciona <strong>Agregar a Inicio</strong> <span className="text-lg align-middle">➕</span></span>
+              <span>
+                {isIOS
+                  ? <>Selecciona <strong>Agregar a Inicio</strong> <span className="text-lg align-middle">➕</span></>
+                  : <>Selecciona <strong>Instalar aplicación</strong> o <strong>Agregar a la pantalla principal</strong></>
+                }
+              </span>
             </div>
             {isIOSChrome && (
               <p className="mt-3 text-orange-600 text-xs font-medium bg-orange-50 p-2 rounded flex items-start gap-2">
@@ -116,9 +140,9 @@ export const InstallModal = () => {
           </button>
         )}
 
-        {!isIOS && !deferredPrompt && (
-          <p className="text-xs text-gray-400 mt-4 px-4 text-center">
-            Si el botón no se activa, usa la opción "Instalar aplicación" del menú de tu navegador.
+        {!isIOS && !deferredPrompt && !showManualInstructions && (
+          <p className="text-xs text-gray-400 mt-4 px-4 text-center animate-pulse">
+            Detectando compatibilidad...
           </p>
         )}
       </div>
