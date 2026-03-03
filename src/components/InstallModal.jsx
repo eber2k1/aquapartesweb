@@ -8,17 +8,23 @@ export const InstallModal = () => {
   const [isIOS, setIsIOS] = useState(false);
   const [isIOSChrome, setIsIOSChrome] = useState(false);
   const [isStandalone, setIsStandalone] = useState(false);
+  const [isInAppBrowser, setIsInAppBrowser] = useState(false);
   const [showManualInstructions, setShowManualInstructions] = useState(false);
 
   useEffect(() => {
     // Detectar dispositivo y modo
-    const isIOSDevice = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-    const isChromeIOS = /CriOS/.test(navigator.userAgent);
+    const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+    const isIOSDevice = /iPad|iPhone|iPod/.test(userAgent) && !window.MSStream;
+    const isChromeIOS = /CriOS/.test(userAgent);
     const isInStandaloneMode = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
+    
+    // Detectar navegadores in-app (Facebook, Instagram, Twitter, etc)
+    const isInApp = /(FBAN|FBAV|Instagram|Twitter|WhatsApp|Line)/i.test(userAgent);
     
     setIsIOS(isIOSDevice);
     setIsIOSChrome(isIOSDevice && isChromeIOS);
     setIsStandalone(isInStandaloneMode);
+    setIsInAppBrowser(isInApp);
 
     // Listener para beforeinstallprompt
     const handleBeforeInstallPrompt = (e) => {
@@ -30,13 +36,13 @@ export const InstallModal = () => {
 
     window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
 
-    // Si después de 3 segundos no hemos recibido el evento y no es iOS,
+    // Si después de 4 segundos no hemos recibido el evento y no es iOS,
     // mostramos instrucciones manuales o cambiamos el estado
     const timer = setTimeout(() => {
       if (!deferredPrompt && !isIOSDevice && !isInStandaloneMode) {
         setShowManualInstructions(true);
       }
-    }, 3000);
+    }, 4000);
 
     return () => {
       window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
@@ -85,10 +91,27 @@ export const InstallModal = () => {
         </h2>
 
         <p className="text-gray-600 mb-6 text-sm leading-relaxed px-2">
-          Instala nuestra aplicación para una experiencia más rápida y acceso directo desde tu pantalla de inicio.
+          {isInAppBrowser 
+            ? "Para instalar la aplicación, necesitas abrir este enlace en tu navegador principal (Chrome o Safari)." 
+            : "Instala nuestra aplicación para una experiencia más rápida y acceso directo desde tu pantalla de inicio."
+          }
         </p>
 
-        {isIOS || showManualInstructions ? (
+        {isInAppBrowser ? (
+          <div className="text-left bg-orange-50 p-4 rounded-xl mb-4 border border-orange-100">
+            <p className="font-semibold mb-3 text-orange-800 text-sm flex items-center gap-2">
+              <span>⚠️</span> Navegador no compatible
+            </p>
+            <div className="flex items-center gap-3 mb-3 text-gray-700 text-sm">
+              <span className="flex-shrink-0 w-6 h-6 bg-white rounded-full flex items-center justify-center border border-orange-200 font-bold text-xs text-orange-600 shadow-sm">1</span>
+              <span>Toca el menú de opciones <span className="text-lg align-middle">⋮</span> o <span className="text-lg align-middle">•••</span></span>
+            </div>
+            <div className="flex items-center gap-3 text-gray-700 text-sm">
+              <span className="flex-shrink-0 w-6 h-6 bg-white rounded-full flex items-center justify-center border border-orange-200 font-bold text-xs text-orange-600 shadow-sm">2</span>
+              <span>Selecciona <strong>Abrir en el navegador</strong> o <strong>Abrir en Chrome/Safari</strong></span>
+            </div>
+          </div>
+        ) : (isIOS || showManualInstructions ? (
           <div className="text-left bg-gray-50 p-4 rounded-xl mb-4 border border-gray-100">
             <p className="font-semibold mb-3 text-gray-700 text-sm">
               {isIOS ? 'Para instalar en iOS:' : 'Para instalar en Android / Chrome:'}
@@ -138,9 +161,9 @@ export const InstallModal = () => {
               'Cargando...'
             )}
           </button>
-        )}
+        ))}
 
-        {!isIOS && !deferredPrompt && !showManualInstructions && (
+        {!isIOS && !deferredPrompt && !showManualInstructions && !isInAppBrowser && (
           <p className="text-xs text-gray-400 mt-4 px-4 text-center animate-pulse">
             Detectando compatibilidad...
           </p>
