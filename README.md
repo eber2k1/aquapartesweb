@@ -10,7 +10,7 @@ Catálogo digital para Aqua Partes, desarrollado con tecnologías web modernas p
 
 ## 🌐 En Vivo
 
-La aplicación está desplegada en: [aquapartesweb.vercel.app](https://aquapartesweb.vercel.app/)
+La aplicación está desplegada en: [aquapartes.pe](https://aquapartes.pe)
 
 ## Características
 
