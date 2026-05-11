@@ -41,15 +41,15 @@ export const MainPage = () => {
     return (
         <>
             <InstallModal />
-            {/* <SplashAdModal
+            <SplashAdModal
                 isOpen={isSplashOpen}
                 onClose={() => setIsSplashOpen(false)}
                 images={[
-                    '/adds/Add-NewYear.jpeg'
+                    '/adds/Membrana_de_agua_salubre.jpeg'
                 ]}
                 intervalMs={10000}
                 autoRotate={true}
-            /> */}
+            />
             <div>
                 <BrandsCarousel />
                 <Banner images={bannerImages} interval={10000} />
