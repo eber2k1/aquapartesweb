@@ -81,8 +81,8 @@ export default function ChatbotFloat() {
 
       const structuredReply = buildStructuredReply(response.data);
       const replyText =
-        sanitizeText(response.data?.reply) ||
         structuredReply.recommendation ||
+        sanitizeText(response.data?.reply) ||
         'Tengo una sugerencia para ti, pero no llegó texto principal en la respuesta.';
 
       setMessages((currentMessages) => [

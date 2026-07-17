@@ -23,24 +23,9 @@ export default function ChatbotMessage({ message, onSuggestedQuestion }) {
 
         {!isUserMessage && structuredReply && (
           <div className="mt-3 space-y-3">
-            {structuredReply.recommendation &&
-              structuredReply.recommendation !== message.content && (
-                <div className="rounded-xl bg-slate-50 p-3">
-                  <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
-                    Recomendación
-                  </p>
-                  <p className="mt-1 text-sm text-slate-700">
-                    {structuredReply.recommendation}
-                  </p>
-                </div>
-              )}
-
             {structuredReply.reason && (
-              <div className="rounded-xl bg-slate-50 p-3">
-                <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
-                  Por qué aplica
-                </p>
-                <p className="mt-1 text-sm text-slate-700">
+              <div className="rounded-xl border border-slate-200 bg-slate-50/80 p-3">
+                <p className="text-sm leading-6 text-slate-700">
                   {structuredReply.reason}
                 </p>
               </div>
@@ -60,7 +45,7 @@ export default function ChatbotMessage({ message, onSuggestedQuestion }) {
 
             {structuredReply.relatedProducts.length > 0 && (
               <div className="space-y-2">
-                <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
+                <p className="text-xs font-semibold text-slate-500">
                   Productos relacionados
                 </p>
 
@@ -115,7 +100,7 @@ export default function ChatbotMessage({ message, onSuggestedQuestion }) {
                 onClick={() => onSuggestedQuestion(structuredReply.nextQuestion)}
                 className="rounded-xl border border-cyan-200 bg-cyan-50 px-3 py-2 text-left text-sm font-medium text-cyan-800 transition hover:bg-cyan-100"
               >
-                Siguiente sugerida: {structuredReply.nextQuestion}
+                Responder: {structuredReply.nextQuestion}
               </button>
             )}
           </div>
