@@ -2,6 +2,7 @@ import { useLocation } from 'react-router-dom';
 import Header from './Header';
 import Footer from './Footer';
 import Breadcrumb from './Breadcrumb';
+import ChatbotFloat from './chatbot/ChatbotFloat';
 import WhatsAppFloat from './WhatsAppFloat';
 import FacebookFloat from './FacebookFloat';
 
@@ -23,6 +24,7 @@ export const Layout = ({ children }) => {
         {children}
       </main>
       <Footer />
+      <ChatbotFloat />
       {/* Botón flotante de Facebook */}
       <FacebookFloat />
       <WhatsAppFloat />
