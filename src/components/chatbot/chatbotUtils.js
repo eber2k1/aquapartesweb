@@ -1,7 +1,7 @@
 export const CHATBOT_SUGGESTED_QUESTIONS = [
-  '¿Qué filtro me recomiendan para piscina?',
-  '¿Tienen repuestos para bombas de agua?',
-  '¿Qué medio filtrante necesito para suavizar agua?',
+  '¿Tienen resina Lewatit S-1567 para suavización de agua?',
+  '¿Qué bomba dosificadora Blue-White me recomiendan?',
+  '¿Tienen membranas de ósmosis inversa de 8 pulgadas?',
 ];
 
 export const CHATBOT_INITIAL_MESSAGES = [

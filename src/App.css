@@ -228,3 +228,52 @@
     border-right: none;
   }
 }
+
+@keyframes chatbotPanelEnter {
+  from {
+    opacity: 0;
+    transform: translate(12px, 10px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translate(0, 0) scale(1);
+  }
+}
+
+@keyframes chatbotMessageEnter {
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes chatbotPulseRing {
+  0% {
+    transform: scale(1);
+    opacity: 0.55;
+  }
+  50% {
+    transform: scale(1.18);
+    opacity: 0.12;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 0.55;
+  }
+}
+
+.chatbot-panel-enter {
+  animation: chatbotPanelEnter 0.26s ease-out;
+}
+
+.chatbot-message-enter {
+  animation: chatbotMessageEnter 0.24s ease-out;
+}
+
+.chatbot-pulse-ring {
+  animation: chatbotPulseRing 2.2s infinite ease-in-out;
+}

@@ -3,56 +3,61 @@ import { ExternalLink } from 'react-feather';
 export default function ChatbotMessage({ message, onSuggestedQuestion }) {
   const isUserMessage = message.role === 'user';
   const structuredReply = message.structuredReply;
+  const primaryProductLink = structuredReply?.relatedProducts?.find(
+    (product) => product.href,
+  )?.href;
+  const primaryActionLink = primaryProductLink || structuredReply?.technicalSheet;
+  const primaryActionLabel = primaryProductLink
+    ? 'Ver producto'
+    : 'Ver ficha técnica';
 
   return (
-    <div className={`flex ${isUserMessage ? 'justify-end' : 'justify-start'}`}>
+    <div
+      className={`chatbot-message-enter flex ${
+        isUserMessage ? 'justify-end' : 'justify-start'
+      }`}
+    >
       <div
-        className={`max-w-[85%] rounded-2xl px-4 py-3 text-sm shadow-sm ${
+        className={`max-w-[86%] rounded-[1.6rem] px-4 py-3 text-sm shadow-sm ${
           isUserMessage
-            ? 'bg-blue-700 text-white'
-            : 'border border-slate-200 bg-white text-slate-800'
+            ? 'bg-gradient-to-br from-blue-600 via-blue-700 to-cyan-600 text-white shadow-blue-500/20'
+            : 'border border-white/70 bg-white/92 text-slate-800 shadow-slate-200/80 backdrop-blur'
         }`}
       >
         <p className="whitespace-pre-line leading-6">{message.content}</p>
 
-        {!isUserMessage && message.model && (
-          <p className="mt-2 text-[11px] font-medium text-slate-400">
-            {message.model}
-          </p>
-        )}
-
         {!isUserMessage && structuredReply && (
           <div className="mt-3 space-y-3">
             {structuredReply.reason && (
-              <div className="rounded-xl border border-slate-200 bg-slate-50/80 p-3">
+              <div className="rounded-2xl border border-slate-200/80 bg-slate-50/90 p-3">
                 <p className="text-sm leading-6 text-slate-700">
                   {structuredReply.reason}
                 </p>
               </div>
             )}
 
-            {structuredReply.technicalSheet && (
+            {primaryActionLink && (
               <a
-                href={structuredReply.technicalSheet}
+                href={primaryActionLink}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 rounded-xl border border-blue-200 bg-blue-50 px-3 py-2 text-sm font-medium text-blue-700 transition hover:bg-blue-100"
+                className="inline-flex items-center gap-2 rounded-full border border-cyan-200 bg-cyan-50 px-3 py-2 text-sm font-medium text-cyan-800 transition hover:-translate-y-0.5 hover:bg-cyan-100"
               >
-                Ver ficha técnica
+                {primaryActionLabel}
                 <ExternalLink size={14} />
               </a>
             )}
 
             {structuredReply.relatedProducts.length > 0 && (
               <div className="space-y-2">
-                <p className="text-xs font-semibold text-slate-500">
+                <p className="text-xs font-semibold tracking-wide text-slate-500">
                   Productos relacionados
                 </p>
 
                 {structuredReply.relatedProducts.map((product) => (
                   <div
                     key={product.id}
-                    className="rounded-xl border border-slate-200 bg-slate-50 p-3"
+                    className="rounded-2xl border border-slate-200/80 bg-gradient-to-br from-slate-50 to-white p-3 shadow-sm"
                   >
                     <p className="text-sm font-semibold text-slate-800">
                       {product.name}
@@ -70,7 +75,7 @@ export default function ChatbotMessage({ message, onSuggestedQuestion }) {
                           href={product.href}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="inline-flex items-center gap-1 rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 text-xs font-medium text-slate-700 transition hover:bg-slate-100"
+                          className="inline-flex items-center gap-1 rounded-full border border-slate-200 bg-white px-3 py-1.5 text-xs font-medium text-slate-700 transition hover:-translate-y-0.5 hover:bg-slate-100"
                         >
                           Ver producto
                           <ExternalLink size={12} />
@@ -82,7 +87,7 @@ export default function ChatbotMessage({ message, onSuggestedQuestion }) {
                           href={product.technicalSheet}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="inline-flex items-center gap-1 rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 text-xs font-medium text-slate-700 transition hover:bg-slate-100"
+                          className="inline-flex items-center gap-1 rounded-full border border-slate-200 bg-white px-3 py-1.5 text-xs font-medium text-slate-700 transition hover:-translate-y-0.5 hover:bg-slate-100"
                         >
                           Ficha técnica
                           <ExternalLink size={12} />
@@ -98,7 +103,7 @@ export default function ChatbotMessage({ message, onSuggestedQuestion }) {
               <button
                 type="button"
                 onClick={() => onSuggestedQuestion(structuredReply.nextQuestion)}
-                className="rounded-xl border border-cyan-200 bg-cyan-50 px-3 py-2 text-left text-sm font-medium text-cyan-800 transition hover:bg-cyan-100"
+                className="rounded-2xl border border-cyan-200 bg-gradient-to-r from-cyan-50 to-blue-50 px-3 py-2 text-left text-sm font-medium text-cyan-900 transition hover:-translate-y-0.5 hover:bg-cyan-100"
               >
                 Responder: {structuredReply.nextQuestion}
               </button>
