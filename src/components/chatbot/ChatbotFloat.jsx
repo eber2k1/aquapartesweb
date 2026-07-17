@@ -122,11 +122,11 @@ export default function ChatbotFloat() {
   };
 
   return (
-    <div className="fixed bottom-6 right-[6.5rem] z-50 sm:right-[7rem]">
+    <div className="fixed bottom-6 right-4 z-50 sm:right-6">
       {isOpen && (
         <div
           className="chatbot-panel-enter absolute bottom-0 right-full mr-4 overflow-hidden rounded-[2rem] border border-white/70 bg-white/90 shadow-[0_24px_60px_rgba(15,23,42,0.22)] backdrop-blur-xl"
-          style={{ width: 'min(25rem, calc(100vw - 7rem))' }}
+          style={{ width: 'min(25rem, calc(100vw - 5.5rem))' }}
         >
             <div className="relative overflow-hidden bg-gradient-to-br from-cyan-600 via-blue-700 to-indigo-700 px-4 py-4 text-white">
               <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.22),transparent_32%),radial-gradient(circle_at_bottom_left,rgba(255,255,255,0.14),transparent_30%)]" />

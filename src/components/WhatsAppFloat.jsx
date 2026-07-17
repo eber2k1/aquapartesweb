@@ -51,10 +51,10 @@ export default function WhatsAppFloat() {
         `}
       </style>
       
-      <div className="fixed bottom-6 right-6 z-50">
+      <div className="fixed bottom-6 left-6 z-50">
         {/* QR Code Tooltip */}
         {showQR && (
-          <div className="absolute bottom-20 right-0 mb-2 bg-white rounded-2xl shadow-2xl p-4 border border-gray-100 transform transition-all duration-500 ease-out whatsapp-slideUp w-80">
+          <div className="absolute bottom-20 left-0 mb-2 bg-white rounded-2xl shadow-2xl p-4 border border-gray-100 transform transition-all duration-500 ease-out whatsapp-slideUp w-80">
             <div className="text-center">
               <div className="bg-gradient-to-r from-green-400 to-green-600 text-white px-4 py-1 rounded-full text-sm font-semibold mb-3">
                 💬 ¡Cotiza tus productos aquí!
@@ -86,7 +86,7 @@ export default function WhatsAppFloat() {
               </div>
             </div>
             {/* Arrow pointing to button */}
-            <div className="absolute bottom-0 right-8 transform translate-y-full">
+            <div className="absolute bottom-0 left-8 transform translate-y-full">
               <div className="w-0 h-0 border-l-[12px] border-r-[12px] border-t-[12px] border-l-transparent border-r-transparent border-t-white drop-shadow-sm"></div>
             </div>
           </div>

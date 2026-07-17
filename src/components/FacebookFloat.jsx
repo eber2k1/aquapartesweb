@@ -36,14 +36,14 @@ export default function FacebookFloat() {
 
       {/* Controla el hover en el contenedor padre para incluir botón y tooltip */}
       <div
-        className="fixed bottom-24 right-6 z-50"
+        className="fixed bottom-24 left-6 z-50"
         onMouseEnter={() => setShowPreview(true)}
         onMouseLeave={() => setShowPreview(false)}
       >
         {/* Tooltip con vista previa interactiva */}
         {showPreview && (
           <div
-            className="absolute bottom-20 right-0 mb-2 bg-white rounded-2xl shadow-2xl p-2 border border-gray-100 transform transition-all duration-500 ease-out facebook-slideUp w-[360px] pointer-events-auto"
+            className="absolute bottom-20 left-0 mb-2 bg-white rounded-2xl shadow-2xl p-2 border border-gray-100 transform transition-all duration-500 ease-out facebook-slideUp w-[360px] pointer-events-auto"
             onMouseEnter={() => setShowPreview(true)}
             onMouseLeave={() => setShowPreview(false)}
           >
@@ -59,7 +59,7 @@ export default function FacebookFloat() {
                 allow="encrypted-media"
               />
             </div>
-            <div className="absolute bottom-0 right-8 transform translate-y-full">
+            <div className="absolute bottom-0 left-8 transform translate-y-full">
               <div className="w-0 h-0 border-l-[12px] border-r-[12px] border-t-[12px] border-l-transparent border-r-transparent border-t-white drop-shadow-sm"></div>
             </div>
           </div>
