@@ -3,13 +3,27 @@ import { ExternalLink } from 'react-feather';
 export default function ChatbotMessage({ message, onSuggestedQuestion }) {
   const isUserMessage = message.role === 'user';
   const structuredReply = message.structuredReply;
-  const primaryProductLink = structuredReply?.relatedProducts?.find(
+  const primaryRequestedItemLink = structuredReply?.requestedItems
+    ?.flatMap((group) => group.items)
+    ?.find((item) => item.href)?.href;
+  const primaryProductLink = primaryRequestedItemLink || structuredReply?.relatedProducts?.find(
     (product) => product.href,
   )?.href;
-  const primaryActionLink = primaryProductLink || structuredReply?.technicalSheet;
-  const primaryActionLabel = primaryProductLink
-    ? 'Ver producto'
-    : 'Ver ficha técnica';
+  const primaryActionLink = primaryProductLink;
+  const statusLabelByMatch = {
+    strong: 'Coincidencia fuerte',
+    exact: 'Coincidencia fuerte',
+    partial: 'Coincidencia parcial',
+    weak: 'Coincidencia parcial',
+    none: 'Sin coincidencia exacta',
+  };
+  const matchStatusLabel =
+    statusLabelByMatch[structuredReply?.matchStatus?.toLowerCase?.()] ||
+    structuredReply?.matchStatus;
+  const groupedProducts =
+    structuredReply?.requestedItems?.length > 0
+      ? structuredReply.requestedItems
+      : [];
 
   return (
     <div
@@ -24,10 +38,53 @@ export default function ChatbotMessage({ message, onSuggestedQuestion }) {
             : 'border border-white/70 bg-white/92 text-slate-800 shadow-slate-200/80 backdrop-blur'
         }`}
       >
-        <p className="whitespace-pre-line leading-6 sm:leading-6">{message.content}</p>
+        <p
+          className={`whitespace-pre-line ${
+            isUserMessage
+              ? 'leading-6 text-white'
+              : 'text-[15px] font-medium leading-7 text-slate-900'
+          }`}
+        >
+          {message.content}
+        </p>
 
         {!isUserMessage && structuredReply && (
           <div className="mt-3 space-y-3">
+            {structuredReply.summary && (
+              <div className="rounded-2xl border border-cyan-100 bg-cyan-50/70 p-3">
+                <p className="text-sm leading-6 text-slate-700">
+                  {structuredReply.summary}
+                </p>
+              </div>
+            )}
+
+            {matchStatusLabel && (
+              <div className="flex flex-wrap gap-2">
+                <span className="inline-flex items-center rounded-full border border-blue-100 bg-blue-50 px-3 py-1 text-xs font-semibold text-blue-800">
+                  {matchStatusLabel}
+                </span>
+              </div>
+            )}
+
+            {structuredReply.needsMoreInfo &&
+              structuredReply.missingFields?.length > 0 && (
+                <div className="rounded-2xl border border-amber-200 bg-amber-50/90 p-3">
+                  <p className="text-sm font-medium text-amber-900">
+                    Para afinar mejor la recomendación, faltan estos datos:
+                  </p>
+                  <div className="mt-2 flex flex-wrap gap-2">
+                    {structuredReply.missingFields.map((field) => (
+                      <span
+                        key={field}
+                        className="rounded-full border border-amber-200 bg-white px-2.5 py-1 text-xs font-medium text-amber-800"
+                      >
+                        {field}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
+
             {structuredReply.reason && (
               <div className="rounded-2xl border border-slate-200/80 bg-slate-50/90 p-3">
                 <p className="text-sm leading-6 text-slate-700">
@@ -43,12 +100,59 @@ export default function ChatbotMessage({ message, onSuggestedQuestion }) {
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 rounded-full border border-cyan-200 bg-cyan-50 px-3 py-2 text-sm font-medium text-cyan-800 transition hover:-translate-y-0.5 hover:bg-cyan-100"
               >
-                {primaryActionLabel}
+                Ver producto
                 <ExternalLink size={14} />
               </a>
             )}
 
-            {structuredReply.relatedProducts.length > 0 && (
+            {groupedProducts.length > 0 && (
+              <div className="space-y-3">
+                <p className="text-xs font-semibold tracking-wide text-slate-500">
+                  Opciones sugeridas
+                </p>
+
+                {groupedProducts.map((group) => (
+                  <div key={group.id} className="space-y-2">
+                    <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">
+                      {group.label}
+                    </p>
+
+                    {group.items.map((product) => (
+                      <div
+                        key={product.id}
+                        className="rounded-2xl border border-slate-200/80 bg-gradient-to-br from-slate-50 to-white p-3 shadow-sm"
+                      >
+                        <p className="text-sm font-semibold text-slate-800">
+                          {product.name}
+                        </p>
+
+                        {product.description && (
+                          <p className="mt-1 text-sm text-slate-600">
+                            {product.description}
+                          </p>
+                        )}
+
+                        <div className="mt-2 flex flex-wrap gap-2">
+                          {product.href && (
+                            <a
+                              href={product.href}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="inline-flex items-center gap-1 rounded-full border border-slate-200 bg-white px-3 py-2 text-xs font-medium text-slate-700 transition hover:-translate-y-0.5 hover:bg-slate-100 sm:py-1.5"
+                            >
+                              Ver producto
+                              <ExternalLink size={12} />
+                            </a>
+                          )}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {groupedProducts.length === 0 && structuredReply.relatedProducts.length > 0 && (
               <div className="space-y-2">
                 <p className="text-xs font-semibold tracking-wide text-slate-500">
                   Productos relacionados
@@ -78,18 +182,6 @@ export default function ChatbotMessage({ message, onSuggestedQuestion }) {
                           className="inline-flex items-center gap-1 rounded-full border border-slate-200 bg-white px-3 py-2 text-xs font-medium text-slate-700 transition hover:-translate-y-0.5 hover:bg-slate-100 sm:py-1.5"
                         >
                           Ver producto
-                          <ExternalLink size={12} />
-                        </a>
-                      )}
-
-                      {product.technicalSheet && (
-                        <a
-                          href={product.technicalSheet}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-flex items-center gap-1 rounded-full border border-slate-200 bg-white px-3 py-2 text-xs font-medium text-slate-700 transition hover:-translate-y-0.5 hover:bg-slate-100 sm:py-1.5"
-                        >
-                          Ficha técnica
                           <ExternalLink size={12} />
                         </a>
                       )}
