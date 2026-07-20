@@ -18,13 +18,13 @@ export default function ChatbotMessage({ message, onSuggestedQuestion }) {
       }`}
     >
       <div
-        className={`max-w-[86%] rounded-[1.6rem] px-4 py-3 text-sm shadow-sm ${
+        className={`max-w-[90%] rounded-[1.35rem] px-3.5 py-3 text-sm shadow-sm sm:max-w-[86%] sm:rounded-[1.6rem] sm:px-4 ${
           isUserMessage
             ? 'bg-gradient-to-br from-blue-600 via-blue-700 to-cyan-600 text-white shadow-blue-500/20'
             : 'border border-white/70 bg-white/92 text-slate-800 shadow-slate-200/80 backdrop-blur'
         }`}
       >
-        <p className="whitespace-pre-line leading-6">{message.content}</p>
+        <p className="whitespace-pre-line leading-6 sm:leading-6">{message.content}</p>
 
         {!isUserMessage && structuredReply && (
           <div className="mt-3 space-y-3">
@@ -75,7 +75,7 @@ export default function ChatbotMessage({ message, onSuggestedQuestion }) {
                           href={product.href}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="inline-flex items-center gap-1 rounded-full border border-slate-200 bg-white px-3 py-1.5 text-xs font-medium text-slate-700 transition hover:-translate-y-0.5 hover:bg-slate-100"
+                          className="inline-flex items-center gap-1 rounded-full border border-slate-200 bg-white px-3 py-2 text-xs font-medium text-slate-700 transition hover:-translate-y-0.5 hover:bg-slate-100 sm:py-1.5"
                         >
                           Ver producto
                           <ExternalLink size={12} />
@@ -87,7 +87,7 @@ export default function ChatbotMessage({ message, onSuggestedQuestion }) {
                           href={product.technicalSheet}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="inline-flex items-center gap-1 rounded-full border border-slate-200 bg-white px-3 py-1.5 text-xs font-medium text-slate-700 transition hover:-translate-y-0.5 hover:bg-slate-100"
+                          className="inline-flex items-center gap-1 rounded-full border border-slate-200 bg-white px-3 py-2 text-xs font-medium text-slate-700 transition hover:-translate-y-0.5 hover:bg-slate-100 sm:py-1.5"
                         >
                           Ficha técnica
                           <ExternalLink size={12} />
@@ -103,7 +103,7 @@ export default function ChatbotMessage({ message, onSuggestedQuestion }) {
               <button
                 type="button"
                 onClick={() => onSuggestedQuestion(structuredReply.nextQuestion)}
-                className="rounded-2xl border border-cyan-200 bg-gradient-to-r from-cyan-50 to-blue-50 px-3 py-2 text-left text-sm font-medium text-cyan-900 transition hover:-translate-y-0.5 hover:bg-cyan-100"
+                className="w-full rounded-2xl border border-cyan-200 bg-gradient-to-r from-cyan-50 to-blue-50 px-3 py-2.5 text-left text-sm font-medium text-cyan-900 transition hover:-translate-y-0.5 hover:bg-cyan-100 sm:w-auto sm:py-2"
               >
                 Responder: {structuredReply.nextQuestion}
               </button>

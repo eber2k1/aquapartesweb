@@ -124,22 +124,29 @@ export default function ChatbotFloat() {
   return (
     <div className="fixed bottom-6 right-4 z-50 sm:right-6">
       {isOpen && (
-        <div
-          className="chatbot-panel-enter absolute bottom-0 right-full mr-4 overflow-hidden rounded-[2rem] border border-white/70 bg-white/90 shadow-[0_24px_60px_rgba(15,23,42,0.22)] backdrop-blur-xl"
-          style={{ width: 'min(25rem, calc(100vw - 5.5rem))' }}
-        >
-            <div className="relative overflow-hidden bg-gradient-to-br from-cyan-600 via-blue-700 to-indigo-700 px-4 py-4 text-white">
+        <>
+          <button
+            type="button"
+            aria-label="Cerrar panel del chatbot"
+            onClick={() => setIsOpen(false)}
+            className="fixed inset-0 bg-slate-950/20 backdrop-blur-[1px] sm:hidden"
+          />
+
+          <div className="chatbot-panel-enter absolute bottom-0 right-full mr-4 w-[25rem] max-w-[calc(100vw-5.5rem)] overflow-hidden rounded-[2rem] border border-white/70 bg-white/95 shadow-[0_24px_60px_rgba(15,23,42,0.22)] backdrop-blur-xl max-sm:fixed max-sm:inset-x-3 max-sm:bottom-24 max-sm:mr-0 max-sm:w-auto max-sm:max-w-none">
+            <div className="relative overflow-hidden bg-gradient-to-br from-cyan-600 via-blue-700 to-indigo-700 px-4 py-4 text-white sm:px-4 sm:py-4">
               <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.22),transparent_32%),radial-gradient(circle_at_bottom_left,rgba(255,255,255,0.14),transparent_30%)]" />
               <div className="relative flex items-start justify-between gap-3">
-                <div className="flex items-center gap-3">
-                  <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-white/18 shadow-inner backdrop-blur">
-                    <MessageCircle size={20} />
+                <div className="min-w-0 flex items-center gap-3">
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-white/18 shadow-inner backdrop-blur sm:h-11 sm:w-11">
+                    <MessageCircle size={18} />
                   </div>
-                  <div>
-                    <p className="text-sm font-semibold">Asistente IA Aquapartes</p>
-                    <div className="mt-1 flex items-center gap-2 text-xs text-cyan-50/90">
+                  <div className="min-w-0">
+                    <p className="text-sm font-semibold sm:text-sm">Asistente IA Aquapartes</p>
+                    <div className="mt-1 flex items-start gap-2 text-[13px] leading-5 text-cyan-50/90 sm:items-center sm:text-xs">
                       <span className="inline-block h-2 w-2 rounded-full bg-emerald-300 shadow-[0_0_10px_rgba(110,231,183,0.9)]" />
-                      <span>En línea para ayudarte a encontrar el producto ideal</span>
+                      <span className="max-w-[14rem] sm:max-w-none">
+                        En línea para ayudarte a encontrar el producto ideal
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -157,10 +164,10 @@ export default function ChatbotFloat() {
 
             <div
               ref={scrollContainerRef}
-              className="max-h-[29rem] space-y-4 overflow-y-auto bg-[linear-gradient(180deg,#f8fbff_0%,#f3f7fb_100%)] px-4 py-4"
+              className="max-h-[52vh] space-y-3 overflow-y-auto bg-[linear-gradient(180deg,#f8fbff_0%,#f3f7fb_100%)] px-3 py-3 sm:max-h-[29rem] sm:space-y-4 sm:px-4 sm:py-4"
             >
               {!hasConversation && (
-                <div className="chatbot-message-enter rounded-2xl border border-cyan-100 bg-white/90 p-3 text-sm text-slate-700 shadow-sm">
+                <div className="chatbot-message-enter rounded-2xl border border-cyan-100 bg-white/90 p-3 text-sm leading-6 text-slate-700 shadow-sm">
                   Pregúntame por filtros, bombas, resinas, medios filtrantes o
                   repuestos.
                 </div>
@@ -186,15 +193,15 @@ export default function ChatbotFloat() {
               )}
             </div>
 
-            <div className="border-t border-slate-200/80 bg-white/95 p-4">
+            <div className="border-t border-slate-200/80 bg-white/95 p-3 sm:p-4">
               {!hasConversation && (
-                <div className="mb-3 flex flex-wrap gap-2">
+                <div className="chatbot-mobile-scroll mb-3 flex gap-2 overflow-x-auto pb-1 sm:flex-wrap sm:overflow-visible sm:pb-0">
                   {CHATBOT_SUGGESTED_QUESTIONS.map((question) => (
                     <button
                       key={question}
                       type="button"
                       onClick={() => submitMessage(question)}
-                      className="rounded-full border border-slate-200 bg-slate-50/90 px-3 py-1.5 text-xs font-medium text-slate-700 transition hover:-translate-y-0.5 hover:border-cyan-200 hover:bg-cyan-50 hover:text-cyan-800"
+                      className="shrink-0 rounded-full border border-slate-200 bg-slate-50/90 px-3 py-2 text-xs font-medium text-slate-700 transition hover:-translate-y-0.5 hover:border-cyan-200 hover:bg-cyan-50 hover:text-cyan-800 sm:py-1.5"
                     >
                       {question}
                     </button>
@@ -213,9 +220,9 @@ export default function ChatbotFloat() {
                   <textarea
                     value={draftMessage}
                     onChange={(event) => setDraftMessage(event.target.value)}
-                    rows={2}
+                    rows={1}
                     placeholder="Escribe tu consulta..."
-                    className="min-h-[56px] w-full resize-none rounded-[1.6rem] border border-slate-200 bg-slate-50/70 px-4 py-3 pr-4 text-sm text-slate-800 outline-none transition focus:border-cyan-400 focus:bg-white focus:ring-4 focus:ring-cyan-100"
+                    className="min-h-[52px] w-full resize-none rounded-[1.4rem] border border-slate-200 bg-slate-50/70 px-4 py-3 pr-4 text-sm text-slate-800 outline-none transition focus:border-cyan-400 focus:bg-white focus:ring-4 focus:ring-cyan-100 sm:min-h-[56px] sm:rounded-[1.6rem]"
                     onKeyDown={(event) => {
                       if (event.key === 'Enter' && !event.shiftKey) {
                         event.preventDefault();
@@ -228,7 +235,7 @@ export default function ChatbotFloat() {
                 <button
                   type="submit"
                   disabled={isLoading || !sanitizeText(draftMessage)}
-                  className="flex h-[56px] w-[56px] items-center justify-center rounded-[1.4rem] bg-gradient-to-br from-cyan-500 via-blue-600 to-blue-700 text-white shadow-lg transition hover:scale-105 active:scale-95 disabled:cursor-not-allowed disabled:from-slate-300 disabled:via-slate-300 disabled:to-slate-300"
+                  className="flex h-[52px] w-[52px] shrink-0 items-center justify-center rounded-[1.2rem] bg-gradient-to-br from-cyan-500 via-blue-600 to-blue-700 text-white shadow-lg transition hover:scale-105 active:scale-95 disabled:cursor-not-allowed disabled:from-slate-300 disabled:via-slate-300 disabled:to-slate-300 sm:h-[56px] sm:w-[56px] sm:rounded-[1.4rem]"
                   aria-label="Enviar mensaje"
                 >
                   <Send size={18} />
@@ -236,6 +243,7 @@ export default function ChatbotFloat() {
               </form>
             </div>
           </div>
+        </>
       )}
 
       <div className="relative">

@@ -277,3 +277,12 @@
 .chatbot-pulse-ring {
   animation: chatbotPulseRing 2.2s infinite ease-in-out;
 }
+
+.chatbot-mobile-scroll {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.chatbot-mobile-scroll::-webkit-scrollbar {
+  display: none;
+}
