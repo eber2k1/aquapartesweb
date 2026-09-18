@@ -45,9 +45,8 @@ export const MainPage = () => {
                 isOpen={isSplashOpen}
                 onClose={() => setIsSplashOpen(false)}
                 images={[
-                    '/adds/Membrana_de_agua_salubre.jpeg',
-                    '/adds/tanque-polyglass-12x48.jpg',
-                    '/adds/lewatit-S1567.jpg'
+                    '/adds/Resina-Purolite.jpeg',
+                    '/adds/Electrobomba-multietapas-booster.jpeg'
                 ]}
                 intervalMs={10000}
                 autoRotate={true}

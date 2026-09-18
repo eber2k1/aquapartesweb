@@ -1,7 +1,7 @@
 import { ExternalLink } from 'react-feather';
 
 export default function ChatbotMessage({ message, onSuggestedQuestion }) {
-  const isUserMessage = message.role === 'user';
+  const isUserMessage = message.role === 'user'; 
   const structuredReply = message.structuredReply;
   const primaryRequestedItemLink = structuredReply?.requestedItems
     ?.flatMap((group) => group.items)
