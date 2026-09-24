@@ -24,20 +24,26 @@ const BrandCard = ({ brand, onViewProducts }) => {
     >
       <div className="p-4 flex flex-col h-full">
         {/* Brand Image */}
-        <div className="flex-shrink-0 mb-3">
-          <div className="h-16 w-full flex items-center justify-center">
+        <div className="flex-shrink-0 mb-4 px-2">
+          <div className="h-24 sm:h-28 w-full flex items-center justify-center bg-gradient-to-br from-gray-50 to-gray-100/50 rounded-xl p-3 border border-gray-100">
             {brand.marca_imagen ? (
               <img 
                 src={brand.marca_imagen} 
                 alt={`${brand.marca}`}
-                className="max-h-12 max-w-full object-contain hover:scale-105 transition-transform duration-200"
+                className="max-h-20 sm:max-h-24 w-auto max-w-full min-w-[85px] object-contain hover:scale-110 transition-all duration-300 drop-shadow-sm"
+                style={{
+                  // Workaround: logos con mucho padding interno (FPZ, HM digital, etc.) escalan extra
+                  transform: brand.marca === 'FPZ' || brand.marca.toLowerCase().includes('digital') || brand.marca === 'HACH' 
+                    ? 'scale(1.55)' 
+                    : undefined,
+                }}
                 onError={(e) => {
                   e.target.onerror = null;
                   e.target.src = '/placeholder-brand.png';
                 }}
               />
             ) : (
-              <span className="text-gray-700 font-medium">{brand.marca}</span>
+              <span className="text-gray-800 font-semibold text-lg">{brand.marca}</span>
             )}
           </div>
         </div>
